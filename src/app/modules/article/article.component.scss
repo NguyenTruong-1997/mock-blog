@@ -1,0 +1,32 @@
+.post-time,
+.post-date {
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.post-time {
+  color: #fff;
+}
+
+.post-date {
+  color: #ccc;
+}
+
+.post-title {
+  color: #fff;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.post-author-img {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  padding: 3px;
+  margin-right: 8px;
+  border: 2px solid #ff7b7b;
+  border-radius: 50%;
+  overflow: hidden;
+}
