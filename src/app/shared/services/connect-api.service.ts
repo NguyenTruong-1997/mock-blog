@@ -57,16 +57,12 @@ export class ConnectApiService {
     );
   }
 
-  public onGetListArticles() {
+  public onGetListArticles() {}
 
-  }
-
-  public onGetFeedArticles() {
-
-  }
+  public onGetFeedArticles() {}
 
   public onGetArticleBySlug(slug: string) {
-    return this.http.get<GetProfile>(this.API_URL + `/articles/${slug}`, {
+    return this.http.get<SingleArticle>(this.API_URL + `/articles/${slug}`, {
       headers: this.headers,
     });
   }
@@ -76,13 +72,14 @@ export class ConnectApiService {
       this.API_URL + '/articles',
       { article: form },
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onUpdateArticle(form: any, slug: string) {
-    return this.http.put(this.API_URL + `/articles/${slug}`, 
-    { article: form },
-    { headers: this.headers }
+    return this.http.put(
+      this.API_URL + `/articles/${slug}`,
+      { article: form },
+      { headers: this.headers }
     );
   }
 
@@ -90,28 +87,27 @@ export class ConnectApiService {
     return this.http.delete(this.API_URL + `/articles/${slug}`, {
       headers: this.headers,
     });
-  } 
+  }
 
   public onAddComment(comment: any, slug: string) {
     return this.http.post(
       this.API_URL + `/articles/${slug}/comments`,
       { comment: comment },
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onGetComment(slug: string) {
     return this.http.get<SingleComment[]>(
       this.API_URL + `/articles/${slug}/comments`,
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onDeleteComment(slug: string, id: any) {
-    return this.http.delete(
-      this.API_URL + `/articles/${slug}/comments/${id}`,
-      { headers: this.headersAuth() }
-    )
+    return this.http.delete(this.API_URL + `/articles/${slug}/comments/${id}`, {
+      headers: this.headersAuth(),
+    });
   }
 
   public onFavoriteArticle(slug: string) {
@@ -119,21 +115,17 @@ export class ConnectApiService {
       this.API_URL + `/articles/${slug}/favorite`,
       {},
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onUnfavoriteArticle(slug: string) {
-    return this.http.delete(
-      this.API_URL + `/articles/${slug}/favorite`,
-      { headers: this.headersAuth() }
-    )
+    return this.http.delete(this.API_URL + `/articles/${slug}/favorite`, {
+      headers: this.headersAuth(),
+    });
   }
 
   public onGetTags() {
-    return this.http.get(
-      this.API_URL + '/tags',
-      { headers: this.headers }
-    )
+    return this.http.get(this.API_URL + '/tags', { headers: this.headers });
   }
 
   //#end region

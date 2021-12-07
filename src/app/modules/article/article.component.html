@@ -1,28 +1,31 @@
 <div class="bg-black1 mx-auto">
   <div class="container" style="width: 40%; height: 40%">
     <div class="post-meta">
-      <span class="post-time">2 min read </span>
-      <time class="post-date">Nov 12, 2020</time>
+      <time class="post-date">{{ articleList.createdAt | date }}</time>
     </div>
-    <h1 class="post-title">Believe and act as if it were impossible to fail</h1>
+    <h1 class="post-title">{{ articleList.title }}</h1>
     <div class="post-bottom d-flex">
       <div class="post-author">
         <a href="#">
           <img
             class="post-author-img"
-            src="https://upload.wikimedia.org/wikipedia/commons/3/32/Jake_Paul_2016.png"
+            src="{{ articleList.author.image }}"
             alt="img"
           />
         </a>
       </div>
       <div class="post-bottom">
-        <a routerLink="/profile" class="post-author-link">Robert Wibu </a>
-        <!-- <span class="post-tag">
+        <a routerLink="/profile" class="post-author-link"
+          >{{ articleList.author.username }}
+        </a>
+        <span class="post-tag">
           <a (click)="changeFollow()"
             ><span class="text-gray" *ngIf="follow === false"
-              ><i class="fas fa-plus"></i> Follow Wibu</span
+              ><i class="fas fa-plus"></i> Follow
+              {{ articleList.author.username }}</span
             ><span class="text-gray" *ngIf="follow === true"
-              ><i class="fas fa-plus"></i> Unfollow Wibu</span
+              ><i class="fas fa-plus"></i> Unfollow
+              {{ articleList.author.username }}</span
             ></a
           >
           <a (click)="changeFavorite()"
@@ -32,14 +35,14 @@
               ><i class="fas fa-heart"></i> Unfavorite Article</span
             ></a
           >
-        </span> -->
+        </span>
 
-        <span class="post-tag">
+        <!-- <span class="post-tag">
           <a href="#"><i class="fas fa-edit"></i> Edit Article</a>
           <a href="#" class="text-danger"
             ><i class="fas fa-trash-alt"></i> Delete Article</a
           >
-        </span>
+        </span> -->
       </div>
     </div>
   </div>
@@ -47,10 +50,7 @@
     <div class="post aminate">
       <div class="post-content mx-auto" style="width: 100%; height: auto">
         <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam
-          ratione iste modi necessitatibus sunt hic, voluptas, consectetur ut
-          doloremque quibusdam velit corporis obcaecati vel omnis quae
-          cupiditate tempore, vitae nisi.
+          {{ articleList.body }}
         </p>
       </div>
     </div>
@@ -67,38 +67,6 @@
           ></a>
         </div>
       </mat-form-field>
-      <div class="cmt-card mt-3">
-        <div class="card-block">
-          <p>
-            Before starting a new implementation, please check if there is any
-            work in progress for the stack you want to work on.
-          </p>
-        </div>
-        <div class="card-footer">
-          <div class="float-start">
-            <a routerLink="/profile" class="comment-author">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/3/32/Jake_Paul_2016.png"
-                alt="img-author"
-                class="comment-author-img"
-              />
-            </a>
-            <a
-              routerLink="/profile"
-              class="comment-author"
-              style="color: rgba(255, 123, 123, 0.7); margin-left: 8px"
-              >Robert Wibu</a
-            >
-            <span class="date-posted">November 24 2021</span>
-          </div>
-          <div class="float-end">
-            <span class="pull-right" style="cursor: pointer"
-              ><i class="fas fa-trash"></i
-            ></span>
-          </div>
-        </div>
-      </div>
-
       <div class="cmt-card mt-3">
         <div class="card-block">
           <p>
