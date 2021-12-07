@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -17,6 +18,11 @@ export class LoginComponent implements OnInit {
 
   //#region Methods
   public ngOnInit(): void { }
+
+  public onLogin(form: NgForm) {
+    console.log(form);
+    
+  }
 
   //#end region
 }

@@ -1,1 +1,76 @@
-<p>login works!</p>
+<div class="login">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <form novalidate #loginForm="ngForm" class="login-form" (submit)="loginForm.form.valid && onLogin(loginForm)">
+          <h1 class="login__title">Login</h1>
+          <p class="login__desc">
+            Unlock full access and see the entire library of members-only
+            content &amp; updates.
+          </p>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input
+              type="email"
+              matInput
+              placeholder="Email"
+              ngModel
+              name="email"
+              #name="ngModel"
+              required
+              email
+            />
+            <mat-error
+              *ngIf="
+                name.hasError('email') && !name.hasError('required')
+              "
+            >
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="name.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Password</mat-label>
+            <input
+              type="password"
+              matInput
+              placeholder="Password"
+              ngModel
+              name="password"
+              #password="ngModel"
+              required
+              minlength="6"
+              maxlength="12"
+            />
+            <mat-error
+              *ngIf="
+                password.hasError('email') && !password.hasError('required')
+              "
+            >
+              Please enter a valid password
+            </mat-error>
+            <mat-error *ngIf="password.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="mb-3">
+            <button mat-raised-button color="primary" type="submit">
+              Login
+            </button>
+          </div>
+          <p class="login__bottom-text">
+            <small
+              >Don't have an account yet?
+              <a [routerLink]="['../register']">Sign up</a></small
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

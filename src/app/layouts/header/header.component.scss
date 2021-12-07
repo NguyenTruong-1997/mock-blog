@@ -1,0 +1,38 @@
+.header {
+  background-color: #0f0e15;
+  padding: 60px 0;
+  .container {
+    .navbar-brand {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      vertical-align: middle;
+      color: #eee;
+      text-transform: uppercase;
+      text-decoration: none;
+      letter-spacing: -1px;
+      &:hover {
+        color: rgba(255,123,123,.7);
+      }
+    }
+    .nav-pills {
+      .nav-item {
+        .nav-link {
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          text-decoration: none;
+          color: #eee;
+          &:hover {
+            color: rgba(255,123,123,.7);
+          }
+        }
+        .underlight {
+          background-color: #eee;
+          color: #0f0e15;
+        }
+      }
+    }
+  }
+}

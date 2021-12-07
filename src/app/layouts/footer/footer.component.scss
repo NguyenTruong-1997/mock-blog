@@ -1,0 +1,36 @@
+.footer {
+  background-color: #0f0e15;
+  padding: 60px 0;
+  .copyright {
+    font-size: 13px;
+    color: #aaa;
+    a {
+      color: #fff;
+      cursor: pointer;
+      &:hover {
+        color: rgba(255,123,123,.7);
+      }
+    }
+  }
+  .social {
+    .social__item {
+      display: flex;
+      justify-content: center;
+      margin-right: 12px;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+      line-height: 40px;
+      border-radius: 8px;
+      background-color: #17151e;
+      cursor: pointer;
+      a {
+        color: #fff;
+        &:hover {
+          color: rgba(255,123,123,.7);
+        }
+      }
+    }
+  }
+}
