@@ -2,7 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
+
+        <div *ngIf="isLoading" class="text-center spinner">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+        
         <form
+          *ngIf="!isLoading"
           class="signup-form"
           novalidate
           #signupForm="ngForm"

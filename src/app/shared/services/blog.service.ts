@@ -14,6 +14,9 @@ export class BlogService {
   //#end region
 
   //#region Methods
+  public onGetToken() {
+    return JSON.parse(localStorage.getItem('CURRENT_USER') || '{}').user.token;
+  }
 
   //#end region
 }
