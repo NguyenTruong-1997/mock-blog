@@ -2,7 +2,12 @@
   <div class="container">
     <div class="row">
       <div class="col col-12">
-        <form novalidate #loginForm="ngForm" class="login-form" (submit)="loginForm.form.valid && onLogin(loginForm)">
+        
+        <div *ngIf="isLoading" class="text-center spinner">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+
+        <form novalidate #loginForm="ngForm" class="login-form" (submit)="loginForm.form.valid && onLogin(loginForm)" *ngIf="!isLoading">
           <h1 class="login__title">Login</h1>
           <p class="login__desc">
             Unlock full access and see the entire library of members-only
