@@ -5,7 +5,19 @@
   font-weight: 500;
 }
 
-.post-time {
+p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.bg-black1 {
+  background-color: #0f0e15;
+}
+
+.post-time,
+.post-author-link,
+.post-tag,
+span {
   color: #fff;
 }
 
@@ -16,7 +28,9 @@
 .post-title {
   color: #fff;
   font-size: 40px;
-  font-weight: 700;
+  font-weight: 900;
+  margin-top: 16px;
+  line-height: 46px;
 }
 
 .post-author-img {
@@ -29,4 +43,99 @@
   border: 2px solid #ff7b7b;
   border-radius: 50%;
   overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.post-bottom {
+  margin-top: 8px;
+}
+
+.post-tag > a {
+  padding: 4px 8px;
+  margin: 4px 0;
+  font-size: 12px;
+  line-height: 10px;
+  font-weight: 700;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  color: #aaa;
+}
+
+.post-tag > a:hover {
+  border-color: rgba(255, 123, 123, 0.7);
+}
+
+.post-content {
+  color: #aaa;
+}
+
+.post {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.example-form,
+.post-content {
+  min-width: 150px;
+  max-width: 700px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.card-block {
+  background-color: #0f0e15;
+  padding: 1.25rem;
+  border: 1px solid #eee;
+  color: #eee;
+}
+
+.card-footer {
+  height: 40px;
+  box-shadow: none !important;
+  font-size: 0.8rem;
+  font-weight: 300;
+  background-color: #0f0e15;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.comment-author-img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 20px;
+  width: 20px;
+  border-radius: 30px;
+}
+
+.comment-author {
+  vertical-align: middle;
+}
+
+.date-posted {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+  color: #bbb;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.icon {
+  font-size: 20px;
+  color: #eee;
+}
+
+.icon:hover {
+  color: rgba(255, 123, 123, 0.7);
 }
