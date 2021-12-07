@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
 
 
 
@@ -19,7 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AuthComponent,
     LoginComponent,
     SignupComponent,
-    SettingComponent
+    SettingComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     CommonModule,

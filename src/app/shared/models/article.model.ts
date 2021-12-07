@@ -19,6 +19,13 @@ export interface Article {
   author: Author;
 }
 
+export interface FormCreateArticle {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
 export interface Author {
   username: string;
   bio: string;

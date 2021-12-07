@@ -8,19 +8,19 @@
     
         <div class="collapse navbar-collapse justify-content-end">
           <ul class="nav nav-pills">
-            <li class="nav-item" routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active" *ngIf="isLogin">
               <a class="nav-link" [routerLink]="['./auth/setting']" routerLinkActive="underlight">Setting</a>
             </li>
-            <li class="nav-item" routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active" *ngIf="!isLogin">
               <a class="nav-link" [routerLink]="['./auth/login']" routerLinkActive="underlight">Login</a>
             </li>
-            <li class="nav-item" routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active" *ngIf="!isLogin">
               <a class="nav-link" [routerLink]="['./auth/register']" routerLinkActive="underlight">Register</a>
             </li>
-            <li class="nav-item" routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active" *ngIf="isLogin">
               <a class="nav-link" [routerLink]="['./editor']" routerLinkActive="underlight">New Article</a>
             </li>
-            <li class="nav-item" routerLinkActive="active">
+            <li class="nav-item" routerLinkActive="active" *ngIf="isLogin">
               <a class="nav-link" [routerLink]="['./profile']" routerLinkActive="underlight">User</a>
             </li>
           </ul>
