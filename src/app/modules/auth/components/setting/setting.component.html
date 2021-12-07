@@ -1,1 +1,119 @@
-<p>setting works!</p>
+<div class="setting">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form
+          class="setting-form"
+          novalidate
+          #settingForm="ngForm"
+          (submit)="settingForm.form.valid && onSetting(settingForm)"
+        >
+          <h1 class="setting__title text-center">Your Profile</h1>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Image URL</mat-label>
+            <input
+              type="url"
+              matInput
+              placeholder="Image URL"
+              ngModel
+              name="imageURL"
+              #imageURL="ngModel"
+              required
+              pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
+            />
+            <mat-error
+              *ngIf="
+                imageURL.hasError('pattern') && !imageURL.hasError('required')
+              "
+            >
+              Please enter a valid URL
+            </mat-error>
+            <mat-error *ngIf="imageURL.hasError('required')">
+              Image profile is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <div
+            class="image-preview"
+            *ngIf="!imageURL.hasError('pattern') && imageURL.value"
+          >
+            <img [src]="imageURL.value" class="d-block mx-auto" />
+          </div>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Short bio</mat-label>
+            <textarea
+              matInput
+              placeholder="Short bio about you"
+              ngModel
+              name="bio"
+              #bio="ngModel"
+            ></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input
+              type="email"
+              matInput
+              placeholder="Email"
+              ngModel
+              name="email"
+              #name="ngModel"
+              required
+              email
+            />
+            <mat-error
+              *ngIf="name.hasError('email') && !name.hasError('required')"
+            >
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="name.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>New Password</mat-label>
+            <input
+              type="password"
+              matInput
+              placeholder="Password"
+              ngModel
+              name="password"
+              #password="ngModel"
+              required
+              minlength="6"
+              maxlength="12"
+            />
+            <mat-error
+              *ngIf="
+                password.hasError('email') && !password.hasError('required')
+              "
+            >
+              Please enter a valid password
+            </mat-error>
+            <mat-error *ngIf="password.hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="mb-3 text-end">
+            <button mat-raised-button color="primary" type="submit">
+              Update settings
+            </button>
+          </div>
+
+          <hr class="hightlight">
+
+          <div class="mb-3">
+            <button mat-raised-button color="primary" type="button">
+              Logout
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

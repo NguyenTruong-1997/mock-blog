@@ -1,0 +1,36 @@
+.setting {
+  background-color: #0f0e15;
+  .setting-form {
+    width: 100%;
+    max-width: 550px;
+    margin: 80px auto 10vw;
+    h1 {
+      margin-bottom: 8px;
+      font-size: 48px;
+      color: #fff;
+      font-weight: 900;
+      line-height: 1.4em;
+      letter-spacing: -1px;
+    }
+    p {
+      margin-bottom: 30px;
+      font-size: 18px;
+      color: #aaa;
+      a {
+        color: #fff;
+        text-decoration: underline;
+      }
+    }
+    input {
+      color: #fff;
+    }
+    .image-preview img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+    .hightlight {
+      border: 1px solid #fff;
+    }
+  }
+}

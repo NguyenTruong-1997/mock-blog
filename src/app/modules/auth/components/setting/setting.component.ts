@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -17,6 +18,10 @@ export class SettingComponent implements OnInit {
 
   //#region Methods
   public ngOnInit(): void { }
+
+  public onSetting(form: NgForm) {
+    
+  }
 
   //#end region
 }

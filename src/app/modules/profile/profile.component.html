@@ -1,4 +1,4 @@
-<div class="profile">
+<div class="all">
   <div class="container">
     <div class="row">
       <div class="col col-8 col-d-10 col-m-12 push-m-0 push-d-1 push-2">
@@ -15,16 +15,28 @@
             tincidunt nisl, luctus gravida nunc nisi at risus. Nam eget bibendum
             odio. Nam dignissim odio quis ipsum tristique, at luctus ex.
           </h2>
-          <span class="btn-edit btn">
-            <a class="edit"><i class="fas fa-cog"></i>Edit Profile Settings</a>
+          <span class="">
+            <a class="btn edit btn-edit" routerLink="../auth/setting"
+              ><i class="fas fa-cog"></i>Edit Profile Settings</a
+            >
           </span>
         </div>
       </div>
     </div>
+    <nav mat-tab-nav-bar animationDuration="2000ms">
+      <a
+        mat-tab-link
+        *ngFor="let link of links"
+        [routerLink]="link.url"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [active]="rla.isActive"
+        [routerLinkActive]="['class1']"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
   </div>
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="First">My Articles</mat-tab>
-    <mat-tab label="Second">Favorited Articles</mat-tab>
-  </mat-tab-group>
 </div>
 <router-outlet></router-outlet>

@@ -24,9 +24,9 @@ import { MatTabsModule } from '@angular/material/tabs';
         path: '',
         component: ProfileComponent,
         children: [
-          { path: '', redirectTo: 'username', pathMatch: 'full' },
           { path: ':username', component: ProfileArticleComponent },
           { path: ':username/favorites', component: ProfileFavoritesComponent },
+          { path: '', redirectTo: 'username', pathMatch: 'full' },
         ],
       },
     ]),

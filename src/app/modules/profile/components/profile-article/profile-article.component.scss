@@ -10,49 +10,7 @@
   line-height: 1.7;
   color: #eeeeee;
 }
-.inf-profile {
-  max-width: 540px;
-  width: 100%;
-  margin: 40px auto 80px;
-  text-align: center;
-}
-.inf-image-box {
-  margin-bottom: 20px;
-}
-.inf-image {
-  display: block;
-  width: 140px;
-  height: 140px;
-  margin: 0 auto;
-  padding: 6px;
-  border: 3px solid #ff7b7b;
-  border-radius: 50%;
-}
-.inf-title {
-  margin-bottom: 20px;
-  font-size: 40px;
-  font-weight: 900;
-}
-.bio-profile {
-  margin-bottom: 20px;
-}
-.push-2 {
-  margin-left: 16.66667%;
-}
-.btn-edit {
-  text-align: center;
-  background-color: #aaa;
-}
-.edit {
-  text-decoration: none;
 
-  color: #fff;
-}
-.btn-edit:hover,
-:focus {
-  color: #fff;
-  background-color: rgba(255, 123, 123, 0.7);
-}
 .article {
   align-items: stretch;
   flex-grow: 1;
@@ -92,7 +50,7 @@
 .article-content {
   z-index: 1;
   width: 100%;
-  margin-top: auto;
+  margin-top: 25%;
   padding: 0 32px 32px;
   pointer-events: none;
 }
@@ -148,4 +106,18 @@
 .article-bottom a {
   pointer-events: all;
   text-decoration: none;
+}
+.article-like {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 2px 0;
+  font-size: 20px;
+  line-height: 10px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: #aaa;
+}
+.article-like :hover,
+:focus {
+  color: #ff7b7b;
 }
