@@ -4,16 +4,11 @@
       <div class="col col-8 col-d-10 col-m-12 push-m-0 push-d-1 push-2">
         <div class="inf-profile">
           <figure class="inf-image-box">
-            <img
-              class="inf-image"
-              src="http://norlin.anvodstudio.com/content/images/2020/11/900-9.jpg"
-            />
+            <img class="inf-image" src="{{ user?.profile.image }}" />
           </figure>
-          <h1 class="inf-title">Nga Dang</h1>
+          <h1 class="inf-title">{{ user?.profile.username }}</h1>
           <h2 class="bio-profile">
-            hello My name is Nga.Tellus vel sodales condimentum, urna ex
-            tincidunt nisl, luctus gravida nunc nisi at risus. Nam eget bibendum
-            odio. Nam dignissim odio quis ipsum tristique, at luctus ex.
+            {{ user?.profile.bio }}
           </h2>
           <span class="">
             <a class="btn edit btn-edit" routerLink="../auth/setting"

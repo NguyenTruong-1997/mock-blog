@@ -5,34 +5,33 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   //#region Properties
   public subscriptions = new Subscription();
 
   public isLogin: boolean = false;
-
+  username?: string;
   //#end region
 
   //#region Constructor
-  public constructor(
-    private authService: AuthService
-  ) { }
+  public constructor(private authService: AuthService) {}
 
   //#end region
 
   //#region Methods
-  public ngOnInit(): void { 
-    const currentUserSub = this.authService.currentUser.subscribe(user => {
+  public ngOnInit(): void {
+    const currentUserSub = this.authService.currentUser.subscribe((user) => {
       this.isLogin = !user ? false : true;
-    })
+      this.username = user?.user.username;
+    });
 
     this.subscriptions.add(currentUserSub);
   }
 
   public ngOnDestroy(): void {
-    if(this.subscriptions && !this.subscriptions.closed) {
+    if (this.subscriptions && !this.subscriptions.closed) {
       this.subscriptions.unsubscribe();
     }
   }

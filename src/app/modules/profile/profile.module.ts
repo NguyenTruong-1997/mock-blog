@@ -8,6 +8,7 @@ import { ProfileFavoritesComponent } from './components/profile-favorites/profil
 import { ProfileArticleComponent } from './components/profile-article/profile-article.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -26,11 +27,11 @@ import { MatTabsModule } from '@angular/material/tabs';
         children: [
           { path: ':username', component: ProfileArticleComponent },
           { path: ':username/favorites', component: ProfileFavoritesComponent },
-          { path: '', redirectTo: 'username', pathMatch: 'full' },
+          // { path: '', redirectTo: 'username', pathMatch: 'full' },?
         ],
       },
     ]),
   ],
-  providers: [ProfileService],
+  providers: [ProfileService, ConnectApiService],
 })
 export class ProfileModule {}
