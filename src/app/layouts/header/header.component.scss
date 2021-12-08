@@ -27,6 +27,13 @@
           &:hover {
             color: rgba(255,123,123,.7);
           }
+          img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            padding: 1px;
+            border: 2px solid #ff7b7b;
+          }
         }
         .underlight {
           background-color: #eee;

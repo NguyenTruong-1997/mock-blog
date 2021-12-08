@@ -1,5 +1,5 @@
 export interface SingleArticle {
-  articles: Article;
+  article: Article;
 }
 
 export interface MultiArticle {
@@ -35,7 +35,7 @@ export interface Author {
 }
 
 export interface SingleComment {
-  comments: Comment;
+  comment: Comment;
 }
 
 export interface MultiComment {

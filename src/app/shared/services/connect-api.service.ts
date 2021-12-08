@@ -1,4 +1,4 @@
-import { MultiArticle, SingleArticle, MultiComment, Tags } from './../models/article.model';
+import { MultiArticle, SingleArticle, MultiComment, Tags, SingleComment } from './../models/article.model';
 import { GetProfile } from './../models/profile.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -56,13 +56,31 @@ export class ConnectApiService {
     );
   }
 
-  public onGetMultiArticles(offset: number) {
+  public onGetMultiArticlesByAuthor(offset: number, author: string) {
+    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}&author=${author}`, {
+      headers: this.headers,
+    });
+  }
+
+  public onGetMultiArticlesByFavorited(offset: number, favorited: string) {
+    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}&favorited=${favorited}`, {
+      headers: this.headers,
+    });
+  }
+
+  public onGetMultiArticlesByTag(offset: number, tag: string) {
+    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}&tag=${tag}`, {
+      headers: this.headers,
+    });
+  }
+
+  public onGetGlobalFeedArticles(offset: number) {
     return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}`, {
       headers: this.headers,
     });
   }
 
-  public onGetFeedArticles(offset: number) {
+  public onGetMyFeedArticles(offset: number) {
     return this.http.get<MultiArticle>(this.API_URL + `/articles/feed?limit=10&offset=${offset}`, {
       headers: this.headersAuth(),
     });
@@ -96,7 +114,7 @@ export class ConnectApiService {
   } 
 
   public onAddComment(comment: any, slug: string) {
-    return this.http.post(
+    return this.http.post<SingleComment>(
       this.API_URL + `/articles/${slug}/comments`,
       { comment: comment },
       { headers: this.headersAuth() }
