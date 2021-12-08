@@ -1,5 +1,5 @@
 export interface GetProfile {
-  prifile: Profile;
+  profile: Profile;
 }
 
 export interface Profile {

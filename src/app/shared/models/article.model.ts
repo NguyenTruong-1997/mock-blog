@@ -1,9 +1,10 @@
 export interface SingleArticle {
-  article: Article;
+  articles: Article;
 }
 
 export interface MultiArticle {
-  article: Article[];
+  articles: Article[];
+  articlesCount: number;
 }
 
 export interface Article {
@@ -34,11 +35,11 @@ export interface Author {
 }
 
 export interface SingleComment {
-  comment: Comment;
+  comments: Comment;
 }
 
 export interface MultiComment {
-  comment: Comment[];
+  comments: Comment[];
 }
 
 export interface Comment {
@@ -47,4 +48,8 @@ export interface Comment {
   updatedAt: string;
   body: string;
   author: Author;
+}
+
+export interface Tags {
+  tags: string[];
 }
