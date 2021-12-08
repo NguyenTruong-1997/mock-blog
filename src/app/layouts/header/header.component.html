@@ -21,7 +21,9 @@
               <a class="nav-link" [routerLink]="['./editor']" routerLinkActive="underlight">New Article</a>
             </li>
             <li class="nav-item" routerLinkActive="active" *ngIf="isLogin">
-              <a class="nav-link" [routerLink]="['./profile']" routerLinkActive="underlight">User</a>
+              <a class="nav-link" [routerLink]="['./profile']" routerLinkActive="underlight">{{ currenUser?.username }}
+                <img [src]="currenUser?.image" >
+              </a>
             </li>
           </ul>
         </div>

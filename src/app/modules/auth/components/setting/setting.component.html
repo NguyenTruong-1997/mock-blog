@@ -2,11 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-
         <div *ngIf="isLoading" class="text-center spinner">
           <app-loading-spinner></app-loading-spinner>
         </div>
-        
+
         <form
           *ngIf="!isLoading"
           class="setting-form"
@@ -23,28 +22,26 @@
               matInput
               placeholder="Image URL"
               ngModel
-              name="imageURL"
-              #imageURL="ngModel"
+              name="image"
+              #image="ngModel"
               required
               pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
             />
             <mat-error
-              *ngIf="
-                imageURL.hasError('pattern') && !imageURL.hasError('required')
-              "
+              *ngIf="image.hasError('pattern') && !image.hasError('required')"
             >
               Please enter a valid URL
             </mat-error>
-            <mat-error *ngIf="imageURL.hasError('required')">
+            <mat-error *ngIf="image.hasError('required')">
               Image profile is <strong>required</strong>
             </mat-error>
           </mat-form-field>
 
           <div
             class="image-preview"
-            *ngIf="!imageURL.hasError('pattern') && imageURL.value"
+            *ngIf="!image.hasError('pattern') && image.value"
           >
-            <img [src]="imageURL.value" class="d-block mx-auto" />
+            <img [src]="image.value" class="d-block mx-auto" />
           </div>
 
           <mat-form-field appearance="outline" class="w-100">
@@ -96,7 +93,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="w-100">
+          <!-- <mat-form-field appearance="outline" class="w-100">
             <mat-label>New Password</mat-label>
             <input
               type="password"
@@ -111,7 +108,7 @@
             />
             <mat-error
               *ngIf="
-                password.hasError('email') && !password.hasError('required')
+                (password.hasError('minlength') || password.hasError('maxlength')) && !password.hasError('required')
               "
             >
               Please enter a valid password
@@ -119,7 +116,7 @@
             <mat-error *ngIf="password.hasError('required')">
               Password is <strong>required</strong>
             </mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
 
           <div class="mb-3 text-end">
             <button mat-raised-button color="primary" type="submit">
@@ -127,10 +124,15 @@
             </button>
           </div>
 
-          <hr class="hightlight">
+          <hr class="hightlight" />
 
           <div class="mb-3">
-            <button mat-raised-button color="primary" type="button">
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="onLogout()"
+            >
               Logout
             </button>
           </div>
