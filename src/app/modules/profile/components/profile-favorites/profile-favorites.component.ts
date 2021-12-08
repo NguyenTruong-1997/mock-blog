@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
+import { ProfileService } from '../../service/profile.service';
 
 @Component({
   selector: 'app-profile-favorites',
@@ -7,11 +8,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./profile-favorites.component.scss'],
 })
 export class ProfileFavoritesComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
-
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private profileService: ProfileService
+  ) {}
+  private routeData: any;
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      console.log(params);
+    this.profileService.currentArticles.subscribe((articles) => {
+      console.log(articles);
     });
   }
 }

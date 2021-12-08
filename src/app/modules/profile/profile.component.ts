@@ -34,22 +34,16 @@ export class ProfileComponent implements OnInit {
     this.authService.currentUser.subscribe((user) => {
       this.userProfile = user?.user;
       this.username = user?.user.username;
-      console.log(this.username);
     });
     this.userService
       .onGetProfile(this.userProfile.username)
       .subscribe((user) => {
         this.user = user;
-        console.log(user);
       });
-    this.route.params.subscribe((params) => {
-      this.param = params;
-      console.log(this.param);
-    });
   }
   links = [
-    { url: `./${this.user?.profile.username}`, label: 'My Articles' },
-    { url: `./${this.username}/favorites`, label: 'Favorited Articles' },
+    { url: `./`, label: 'My Articles' },
+    { url: `./favorites`, label: 'Favorited Articles' },
   ];
 
   //#end region

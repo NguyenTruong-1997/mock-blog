@@ -22,12 +22,11 @@ import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
     MatTabsModule,
     RouterModule.forChild([
       {
-        path: '',
+        path: ':username',
         component: ProfileComponent,
         children: [
-          { path: ':username', component: ProfileArticleComponent },
-          { path: ':username/favorites', component: ProfileFavoritesComponent },
-          // { path: '', redirectTo: 'username', pathMatch: 'full' },?
+          { path: '', component: ProfileArticleComponent },
+          { path: 'favorites', component: ProfileFavoritesComponent },
         ],
       },
     ]),
