@@ -1,4 +1,8 @@
-import { SingleArticle, SingleComment } from './../models/article.model';
+import {
+  SingleArticle,
+  SingleComment,
+  MultiComment,
+} from './../models/article.model';
 import { GetProfile } from './../models/profile.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -98,7 +102,7 @@ export class ConnectApiService {
   }
 
   public onGetComment(slug: string) {
-    return this.http.get<SingleComment[]>(
+    return this.http.get<MultiComment>(
       this.API_URL + `/articles/${slug}/comments`,
       { headers: this.headersAuth() }
     );

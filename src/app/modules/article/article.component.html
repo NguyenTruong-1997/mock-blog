@@ -1,7 +1,9 @@
 <div class="bg-black1 mx-auto">
   <div class="container" style="width: 40%; height: 40%">
     <div class="post-meta">
-      <time class="post-date">{{ articleList.createdAt | date }}</time>
+      <time class="post-date">{{
+        articleList.createdAt | date: "MMMM d, y"
+      }}</time>
     </div>
     <h1 class="post-title">{{ articleList.title }}</h1>
     <div class="post-bottom d-flex">
@@ -52,33 +54,40 @@
         <p>
           {{ articleList.body }}
         </p>
+        <!-- <div class="post-tag">
+          <span class="text-gray">{{ articleList.tagList }}</span>
+        </div> -->
       </div>
     </div>
   </div>
+
   <div class="container mt-4">
     <form class="example-form mx-auto">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Write a comment</mat-label>
         <textarea matInput style="color: #fff"></textarea>
         <div class="toolbar mt-2">
-          <i class="icon fas fa-smile-wink"></i>
+          <img
+            src="{{ articleList.author.image }}"
+            alt="img-author"
+            class="comment-author-img"
+          />
           <a href="#" class="float-end"
             ><i class="icon fas fa-paper-plane"></i
           ></a>
         </div>
       </mat-form-field>
-      <div class="cmt-card mt-3">
+      <div class="cmt-card mt-3" *ngFor="let comment of articleComment">
         <div class="card-block">
           <p>
-            Before starting a new implementation, please check if there is any
-            work in progress for the stack you want to work on.
+            {{ comment.body }}
           </p>
         </div>
         <div class="card-footer">
           <div class="float-start">
             <a routerLink="/profile" class="comment-author">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/3/32/Jake_Paul_2016.png"
+                src="{{ articleList.author.image }}"
                 alt="img-author"
                 class="comment-author-img"
               />
@@ -87,9 +96,11 @@
               routerLink="/profile"
               class="comment-author"
               style="color: rgba(255, 123, 123, 0.7); margin-left: 8px"
-              >Robert Wibu</a
+              >{{ comment.author.username }}</a
             >
-            <span class="date-posted">November 24 2021</span>
+            <span class="date-posted">{{
+              comment.createdAt | date: "MMMM d, y"
+            }}</span>
           </div>
           <div class="float-end">
             <span class="pull-right" style="cursor: pointer"
