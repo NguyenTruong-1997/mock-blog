@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { GetUser } from 'src/app/shared/models/user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-setting',
@@ -36,12 +37,16 @@ export class SettingComponent implements OnInit, OnDestroy {
   //#region Methods
   public ngOnInit(): void {
     setTimeout(() => {
-      const getUserSub = this.authService.currentUser
-      .subscribe(res => {
-        this.imagePath = res?.user?.image || 'https://api.realworld.io/images/smiley-cyrus.jpeg';
-        this.userName = res?.user?.username || '',
-        this.currentEmail = res?.user?.email || '',
-        this.shortBio = res?.user?.bio || ''
+      this.isLoading = true;
+      const getUserSub = this.authService.getUser().subscribe((res: GetUser) => {
+        this.imagePath = res.user.image || 'https://api.realworld.io/images/smiley-cyrus.jpeg';
+        this.userName = res.user.username || '',
+        this.currentEmail = res.user.email || '',
+        this.shortBio = res.user.bio || ''
+      }, (err) => {
+        console.log(err);
+      }, () => {
+        this.isLoading = false;
       })
 
       this.subscriptions.add(getUserSub);
@@ -52,12 +57,13 @@ export class SettingComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const settingSub = this.authService.updateUser(form.value)
       .subscribe((res: GetUser) => {
-        this.isLoading = false;
+        Swal.fire('success');
         this.roter.navigate(['../home']);
       }, (err) => {
-        this.isLoading = false;
         console.log(err);
         alert('Something went wrong!');
+      },() => {
+        this.isLoading = false;
       })
 
     this.subscriptions.add(settingSub);

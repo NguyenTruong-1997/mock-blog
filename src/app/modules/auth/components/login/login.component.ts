@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -32,13 +33,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const loginSub = this.authService.login(form.value)
       .subscribe(() => {
-        this.isLoading = false;
+        Swal.fire('success');
         this.roter.navigate(['../home']);
       }, (err) => {
-        this.isLoading = false;
         // alert('Email or password ' + err?.error?.errors['email or password'][0]);
         console.log(err);
         
+      },() => {
+        this.isLoading = false;
       })
 
     this.subscriptions.add(loginSub);
