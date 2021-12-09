@@ -5,6 +5,9 @@ import { Profile } from 'src/app/shared/models/profile.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ConnectApiService } from '../../shared/services/connect-api.service';
 import { GetUser } from '../../shared/models/user.model';
+import { ProfileService } from './service/profile.service';
+import { switchMap } from 'rxjs/operators';
+import { GetProfile } from '../../shared/models/profile.model';
 
 @Component({
   selector: 'app-profile',
@@ -17,14 +20,15 @@ export class ProfileComponent implements OnInit {
   user!: any;
   username?: string;
   param?: any;
+  follow!: boolean ;
   //#end region
 
   //#region Constructor
   public constructor(
-    private router: Router,
     private userService: ConnectApiService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private profileService: ProfileService
   ) {}
 
   //#end region
@@ -35,16 +39,31 @@ export class ProfileComponent implements OnInit {
       this.userProfile = user?.user;
       this.username = user?.user.username;
     });
-    this.userService
-      .onGetProfile(this.userProfile.username)
-      .subscribe((user) => {
+    this.route.params.subscribe((params) => {
+      this.profileService.currentArticles.next(params.username);
+    })
+    this.route.params.pipe(switchMap((params) =>
+      this.userService.onGetProfile(params.username))
+
+    ).subscribe((user) => {
         this.user = user;
-      });
+        console.log(user);
+        this.follow = user.profile.following;
+      })
+
+
   }
   links = [
     { url: `./`, label: 'My Articles' },
     { url: `./favorites`, label: 'Favorited Articles' },
   ];
 
-  //#end region
+  onFollowUser(){
+    this.userService.onFollowUser(this.user.profile.username).subscribe(follow =>
+      this.follow = follow.profile.following)
+  }
+  onUnfollowUser(){
+    this.userService.onUnfollowUser(this.user.profile.username).subscribe(unfollow =>
+      this.follow = unfollow.profile.following)
+  }
 }

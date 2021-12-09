@@ -21,16 +21,21 @@
         text-decoration: underline;
       }
     }
-    input {
+    input, textarea {
       color: #fff;
     }
     .image-preview img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
+      padding: 6px;
+      border: 3px solid #ff7b7b;
     }
     .hightlight {
       border: 1px solid #fff;
     }
+  }
+  .spinner {
+    margin: 80px auto 25vw;
   }
 }

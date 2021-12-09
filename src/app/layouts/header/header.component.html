@@ -45,8 +45,15 @@
                 class="nav-link"
                 [routerLink]="['./profile', username]"
                 routerLinkActive="underlight"
-                >User</a
-              >
+                >{{ currenUser?.username }}
+                <img
+                  [src]="
+                    currenUser?.image
+                      ? currenUser?.image
+                      : 'https://api.realworld.io/images/smiley-cyrus.jpeg'
+                  "
+                />
+              </a>
             </li>
           </ul>
         </div>

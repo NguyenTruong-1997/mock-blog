@@ -33,7 +33,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     const signupSub = this.authService.registration(form.value)
       .subscribe(() => {
         this.isLoading = false;
-        this.roter.navigate(['./login']);
+        alert('Welcome please login to access and see the entire library of members-only content');
+        this.roter.navigate(['../auth/login']);
       }, (err) => {
         this.isLoading = false;
         alert('Email or username ' + err.error.errors['email'][0]);

@@ -75,7 +75,7 @@ export class AuthService {
       this.API_URL + '/users',
       { user: { ...form } },
       { headers: this.headers }
-    );
+    )
   }
 
   //getUser
@@ -87,11 +87,18 @@ export class AuthService {
 
   //updateUser
   public updateUser(form: FormUpdateUser) {
-    return this.http.put<User>(
+    return this.http.put<GetUser>(
       this.API_URL + '/user',
       { user: { ...form } },
       { headers: this.headersAuth() }
-    );
+    )
+    .pipe(
+      tap((res: GetUser) => {
+        this.currentUser.next(res);
+        localStorage.removeItem('CURRENT_USER');
+        localStorage.setItem('CURRENT_USER', JSON.stringify(res));
+      })
+    )
   }
 
   //#end region
