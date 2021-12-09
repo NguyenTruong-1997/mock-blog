@@ -1,4 +1,10 @@
-import { MultiArticle, SingleArticle, MultiComment, Tags, SingleComment } from './../models/article.model';
+import {
+  MultiArticle,
+  SingleArticle,
+  MultiComment,
+  Tags,
+  SingleComment,
+} from './../models/article.model';
 import { GetProfile } from './../models/profile.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -57,33 +63,49 @@ export class ConnectApiService {
   }
 
   public onGetMultiArticlesByAuthor(offset: number, author: string) {
-    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}&author=${author}`, {
-      headers: this.headers,
-    });
+    return this.http.get<MultiArticle>(
+      this.API_URL + `/articles/?limit=10&offset=${offset}&author=${author}`,
+      {
+        headers: this.headersAuth(),
+      }
+    );
   }
 
   public onGetMultiArticlesByFavorited(offset: number, favorited: string) {
-    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}&favorited=${favorited}`, {
-      headers: this.headers,
-    });
+    return this.http.get<MultiArticle>(
+      this.API_URL +
+        `/articles/?limit=10&offset=${offset}&favorited=${favorited}`,
+      {
+        headers: this.headersAuth(),
+      }
+    );
   }
 
   public onGetMultiArticlesByTag(offset: number, tag: string) {
-    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}&tag=${tag}`, {
-      headers: this.headers,
-    });
+    return this.http.get<MultiArticle>(
+      this.API_URL + `/articles/?limit=10&offset=${offset}&tag=${tag}`,
+      {
+        headers: this.headersAuth(),
+      }
+    );
   }
 
   public onGetGlobalFeedArticles(offset: number) {
-    return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}`, {
-      headers: this.headers,
-    });
+    return this.http.get<MultiArticle>(
+      this.API_URL + `/articles/?limit=10&offset=${offset}`,
+      {
+        headers: this.headersAuth(),
+      }
+    );
   }
 
   public onGetMyFeedArticles(offset: number) {
-    return this.http.get<MultiArticle>(this.API_URL + `/articles/feed?limit=10&offset=${offset}`, {
-      headers: this.headersAuth(),
-    });
+    return this.http.get<MultiArticle>(
+      this.API_URL + `/articles/feed?limit=10&offset=${offset}`,
+      {
+        headers: this.headersAuth(),
+      }
+    );
   }
 
   public onGetArticleBySlug(slug: string) {
@@ -97,42 +119,42 @@ export class ConnectApiService {
       this.API_URL + '/articles',
       { article: form },
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onUpdateArticle(form: any, slug: string) {
-    return this.http.put(this.API_URL + `/articles/${slug}`, 
-    { article: form },
-    { headers: this.headers }
+    return this.http.put<SingleArticle>(
+      this.API_URL + `/articles/${slug}`,
+      { article: form },
+      { headers: this.headersAuth() }
     );
   }
 
   public onDeleteArticle(slug: string) {
     return this.http.delete(this.API_URL + `/articles/${slug}`, {
-      headers: this.headers,
+      headers: this.headersAuth(),
     });
-  } 
+  }
 
   public onAddComment(comment: any, slug: string) {
     return this.http.post<SingleComment>(
       this.API_URL + `/articles/${slug}/comments`,
       { comment: comment },
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onGetComment(slug: string) {
     return this.http.get<MultiComment>(
       this.API_URL + `/articles/${slug}/comments`,
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onDeleteComment(slug: string, id: any) {
-    return this.http.delete(
-      this.API_URL + `/articles/${slug}/comments/${id}`,
-      { headers: this.headersAuth() }
-    )
+    return this.http.delete(this.API_URL + `/articles/${slug}/comments/${id}`, {
+      headers: this.headersAuth(),
+    });
   }
 
   public onFavoriteArticle(slug: string) {
@@ -140,21 +162,20 @@ export class ConnectApiService {
       this.API_URL + `/articles/${slug}/favorite`,
       {},
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onUnfavoriteArticle(slug: string) {
     return this.http.delete<SingleArticle>(
       this.API_URL + `/articles/${slug}/favorite`,
       { headers: this.headersAuth() }
-    )
+    );
   }
 
   public onGetTags() {
-    return this.http.get<Tags>(
-      this.API_URL + '/tags',
-      { headers: this.headers }
-    )
+    return this.http.get<Tags>(this.API_URL + '/tags', {
+      headers: this.headers,
+    });
   }
 
   //#end region
