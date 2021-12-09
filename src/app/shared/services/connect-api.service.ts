@@ -1,13 +1,14 @@
 import {
+  MultiArticle,
   SingleArticle,
-  SingleComment,
   MultiComment,
+  Tags,
+  SingleComment,
 } from './../models/article.model';
 import { GetProfile } from './../models/profile.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BlogService } from './blog.service';
-import { FormCreateArticle } from '../models/article.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,7 @@ export class ConnectApiService {
 
   public onFollowUser(username: string) {
     return this.http.post<GetProfile>(
-      this.API_URL + `/api/profiles/${username}/follow`,
+      this.API_URL + `/profiles/${username}/follow`,
       {},
       { headers: this.headersAuth() }
     );
@@ -56,18 +57,32 @@ export class ConnectApiService {
 
   public onUnfollowUser(username: string) {
     return this.http.delete<GetProfile>(
-      this.API_URL + `/api/profiles/${username}/follow`,
+      this.API_URL + `/profiles/${username}/follow`,
       { headers: this.headersAuth() }
     );
   }
 
-  public onGetListArticles() {}
+  public onGetMultiArticles(offset: number) {
+    return this.http.get<MultiArticle>(
+      this.API_URL + `/articles/?limit=10&offset=${offset}`,
+      {
+        headers: this.headers,
+      }
+    );
+  }
 
-  public onGetFeedArticles() {}
+  public onGetFeedArticles(offset: number) {
+    return this.http.get<MultiArticle>(
+      this.API_URL + `/articles/feed?limit=10&offset=${offset}`,
+      {
+        headers: this.headersAuth(),
+      }
+    );
+  }
 
   public onGetArticleBySlug(slug: string) {
     return this.http.get<SingleArticle>(this.API_URL + `/articles/${slug}`, {
-      headers: this.headers,
+      headers: this.headersAuth(),
     });
   }
 
@@ -94,7 +109,7 @@ export class ConnectApiService {
   }
 
   public onAddComment(comment: any, slug: string) {
-    return this.http.post(
+    return this.http.post<SingleComment>(
       this.API_URL + `/articles/${slug}/comments`,
       { comment: comment },
       { headers: this.headersAuth() }
@@ -115,7 +130,7 @@ export class ConnectApiService {
   }
 
   public onFavoriteArticle(slug: string) {
-    return this.http.post(
+    return this.http.post<SingleArticle>(
       this.API_URL + `/articles/${slug}/favorite`,
       {},
       { headers: this.headersAuth() }
@@ -123,13 +138,16 @@ export class ConnectApiService {
   }
 
   public onUnfavoriteArticle(slug: string) {
-    return this.http.delete(this.API_URL + `/articles/${slug}/favorite`, {
-      headers: this.headersAuth(),
-    });
+    return this.http.delete<SingleArticle>(
+      this.API_URL + `/articles/${slug}/favorite`,
+      { headers: this.headersAuth() }
+    );
   }
 
   public onGetTags() {
-    return this.http.get(this.API_URL + '/tags', { headers: this.headers });
+    return this.http.get<Tags>(this.API_URL + '/tags', {
+      headers: this.headers,
+    });
   }
 
   //#end region

@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   declarations: [ArticleComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild([{ path: '', component: ArticleComponent }]),
+    RouterModule.forChild([{ path: ':slug', component: ArticleComponent }]),
     MatInputModule,
     FormsModule,
   ],

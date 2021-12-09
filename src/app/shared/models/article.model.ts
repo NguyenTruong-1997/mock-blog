@@ -4,6 +4,7 @@ export interface SingleArticle {
 
 export interface MultiArticle {
   article: Article[];
+  articlesCount: number;
 }
 
 export interface Article {
@@ -47,4 +48,8 @@ export interface Comment {
   updatedAt: string;
   body: string;
   author: Author;
+}
+
+export interface Tags {
+  tags: string[];
 }
