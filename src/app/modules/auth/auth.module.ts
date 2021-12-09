@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/loading-spinner.module';
 
 
 
@@ -20,8 +20,7 @@ import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinn
     AuthComponent,
     LoginComponent,
     SignupComponent,
-    SettingComponent,
-    LoadingSpinnerComponent
+    SettingComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +29,8 @@ import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinn
     ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    LoadingSpinnerModule
   ],
   providers: [SettingService]
 })

@@ -12,7 +12,7 @@ import { ArticleComponent } from './article.component';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: '', component: ArticleComponent }
+      { path: ':slug', component: ArticleComponent }
     ])
   ]
 })
