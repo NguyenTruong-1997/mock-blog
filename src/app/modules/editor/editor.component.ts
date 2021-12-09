@@ -66,7 +66,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(form: NgForm) {
-    // this.isLoading = true;
+    this.isLoading = true;
 
     if (this.isEdit) {
       const editArticleSub = this.api
