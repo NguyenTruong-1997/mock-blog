@@ -18,6 +18,11 @@ export class SettingComponent implements OnInit, OnDestroy {
 
   public isLoading = false;
 
+  public imagePath = '';
+  public userName = '';
+  public shortBio = '';
+  public currentEmail = '';
+
   //#end region
 
   //#region Constructor
@@ -33,12 +38,10 @@ export class SettingComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const getUserSub = this.authService.currentUser
       .subscribe(res => {
-        this.settingForm.setValue({
-          image: res?.user?.image || '',
-          username: res?.user?.username || '',
-          email: res?.user?.email || '',
-          bio: res?.user?.bio || ''
-        })
+        this.imagePath = res?.user?.image || 'https://api.realworld.io/images/smiley-cyrus.jpeg';
+        this.userName = res?.user?.username || '',
+        this.currentEmail = res?.user?.email || '',
+        this.shortBio = res?.user?.bio || ''
       })
 
       this.subscriptions.add(getUserSub);
