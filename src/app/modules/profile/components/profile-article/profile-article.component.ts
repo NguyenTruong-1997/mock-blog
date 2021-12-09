@@ -14,6 +14,8 @@ import { ProfileService } from '../../service/profile.service';
 export class ProfileArticleComponent implements OnInit {
   param: any;
   listArticle!: any;
+  Article!: string;
+  favorited!: boolean;
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService,
@@ -26,8 +28,22 @@ export class ProfileArticleComponent implements OnInit {
       this.connectedService.onGetMultiArticlesByAuthor(0,articles)
     ))
     .subscribe((data) => {
+      // data.articles.map(article=>{
+      //    this.Article = article.slug;
+      //   console.log(this.Article);
+      //   }
+      //  )
       this.listArticle = data.articles;
+
     });
+  }
+
+  onFavoriteArticle(slug: string){
+   return this.connectedService.onFavoriteArticle(slug).subscribe((favorite) => {
+      console.log(favorite);
+      this.favorited = favorite.article.favorited
+    })
+
   }
   }
 

@@ -28,7 +28,8 @@ export class ProfileComponent implements OnInit {
     private userService: ConnectApiService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private router: Router
   ) {}
 
   //#end region
@@ -44,7 +45,6 @@ export class ProfileComponent implements OnInit {
     })
     this.route.params.pipe(switchMap((params) =>
       this.userService.onGetProfile(params.username))
-
     ).subscribe((user) => {
         this.user = user;
         console.log(user);
@@ -65,5 +65,9 @@ export class ProfileComponent implements OnInit {
   onUnfollowUser(){
     this.userService.onUnfollowUser(this.user.profile.username).subscribe(unfollow =>
       this.follow = unfollow.profile.following)
+  }
+
+  onFavoriteArticle(){
+
   }
 }

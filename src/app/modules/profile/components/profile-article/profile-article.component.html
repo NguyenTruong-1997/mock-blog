@@ -39,8 +39,8 @@
               <div class="article-bottom-meta">
                 <a  class="article-bottom-user">{{article.author.username}}</a>
               </div>
-              <a class="btn  article-like"
-                  ><i class="fas fa-heart"></i>({{article.favoritesCount}})</a
+              <a class="btn  article-like"  (click)="onFavoriteArticle(article.slug)" >
+                <i class="fas fa-heart"></i>({{article.favoritesCount}})</a
                 >
             </div>
           </div>

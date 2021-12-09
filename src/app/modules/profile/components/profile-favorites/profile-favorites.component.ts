@@ -19,6 +19,8 @@ export class ProfileFavoritesComponent implements OnInit {
   private routeData: any;
   ngOnInit(): void {
 
+
+
     this.profileService.currentArticles.pipe(switchMap(articles =>
       this.ConnectApiService.onGetMultiArticlesByFavorited(0,articles)
     ))
