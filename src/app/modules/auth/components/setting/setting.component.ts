@@ -45,6 +45,11 @@ export class SettingComponent implements OnInit, OnDestroy {
         this.shortBio = res.user.bio || ''
       }, (err) => {
         console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!'
+        })
       }, () => {
         this.isLoading = false;
       })
@@ -57,11 +62,23 @@ export class SettingComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const settingSub = this.authService.updateUser(form.value)
       .subscribe((res: GetUser) => {
-        Swal.fire('success');
+      Swal.fire({
+        icon: 'success',
+        iconColor: '#0f0e15',
+        confirmButtonColor: '#0f0e15',
+        title: 'Conglaturation!',
+        text: 'Succesful update setting!'
+      });
         this.roter.navigate(['../home']);
       }, (err) => {
         console.log(err);
-        alert('Something went wrong!');
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!'
+        })
       },() => {
         this.isLoading = false;
       })
