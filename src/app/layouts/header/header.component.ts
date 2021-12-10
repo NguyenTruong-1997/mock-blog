@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //#end region
 
   //#region Methods
+<<<<<<< HEAD
   public ngOnInit(): void {
     const currentUserSub = this.authService.currentUser.subscribe(
       (user: GetUser | null) => {
@@ -34,8 +35,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.username = user?.user.username;
       }
     );
+=======
+  public ngOnInit(): void { 
+    const currentUserSub = this.authService.currentUser.subscribe((user: GetUser | null) => {
+      this.isLogin = !user ? false : true;
+    })
+    
+    const getUserSub = this.authService.getUser().subscribe((user: GetUser) => {
+      this.currenUser = user.user;
+    })
+>>>>>>> 02e3edb37352214001b7e6a2233ba50d44257ae9
 
     this.subscriptions.add(currentUserSub);
+    this.subscriptions.add(getUserSub);
   }
 
   public ngOnDestroy(): void {

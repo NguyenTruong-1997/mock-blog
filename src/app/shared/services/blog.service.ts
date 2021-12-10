@@ -19,7 +19,7 @@ export class BlogService {
   }
 
   public isLogin() {
-    const currentUser = JSON.parse(localStorage.getItem('CURRENT_USER') || '{}');
+    const currentUser = JSON.parse(localStorage.getItem('CURRENT_USER')!);
     if (currentUser && currentUser?.user?.token) {
       return true;
     }
