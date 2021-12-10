@@ -49,8 +49,9 @@ export class ProfileComponent implements OnInit {
         this.user = user;
         console.log(user);
         this.follow = user.profile.following;
-      })
 
+
+      })
 
   }
   links = [
@@ -65,9 +66,5 @@ export class ProfileComponent implements OnInit {
   onUnfollowUser(){
     this.userService.onUnfollowUser(this.user.profile.username).subscribe(unfollow =>
       this.follow = unfollow.profile.following)
-  }
-
-  onFavoriteArticle(){
-
   }
 }

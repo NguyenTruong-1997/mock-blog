@@ -15,7 +15,9 @@ export class ProfileFavoritesComponent implements OnInit {
     private profileService: ProfileService,
     private ConnectApiService: ConnectApiService
   ) {}
-  listFavorites: any
+  listFavorites: any;
+  favorited!: boolean;
+  favoritedCount:any = [];
   private routeData: any;
   ngOnInit(): void {
 
@@ -26,6 +28,27 @@ export class ProfileFavoritesComponent implements OnInit {
     ))
     .subscribe((data) => {
       this.listFavorites = data.articles;
+      let arr: any= [];
+      data.articles.forEach((article: any) => arr.push({Count: article.favoritesCount, status : article.favorited}));
+      this.favoritedCount = arr;
     });
   }
+
+  onFavoriteArticle(slug: string, index: number){
+    return this.ConnectApiService.onFavoriteArticle(slug).subscribe((favorite) => {
+      this.favorited = favorite.article.favorited;
+      this.favoritedCount[index].Count = favorite?.article.favoritesCount;
+      this.favoritedCount[index].status = favorite.article.favorited;
+      console.log('favorite');
+    })
+  }
+
+  onUnfavoriteArticle(slug: string, index: number){
+    return this.ConnectApiService.onUnfavoriteArticle(slug).subscribe((favorite) => {
+       this.favorited = favorite.article.favorited;
+       this.favoritedCount[index].Count = favorite?.article.favoritesCount;
+       this.favoritedCount[index].status = favorite.article.favorited;
+       console.log(favorite);
+     })
+}
 }

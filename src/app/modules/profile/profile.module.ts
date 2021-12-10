@@ -8,6 +8,7 @@ import { ProfileFavoritesComponent } from './components/profile-favorites/profil
 import { ProfileArticleComponent } from './components/profile-article/profile-article.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
     FormsModule,
     ReactiveFormsModule,
     MatTabsModule,
+    MatPaginatorModule,
     RouterModule.forChild([
       {
         path: ':username',

@@ -1,7 +1,7 @@
 <div class="profile">
   <div class="container">
     <div class="row">
-      <div class="article col col-4 col-d-6 col-t-12" *ngFor="let article of listFavorites">
+      <div class="article col col-4 col-d-6 col-t-12" *ngFor="let article of listFavorites; let i = index">
         <div class="article-card">
           <a class="article-img">
             <img
@@ -35,7 +35,11 @@
               </div>
               <div class="article-bottom-meta">
                 <a href="" class="article-bottom-user" [routerLink]="['../../../profile',article.author.username ]">{{article.author.username}}</a>
-              </div>
+             <a class="btn  article-like" *ngIf="!favoritedCount[i].status"  (click)="onFavoriteArticle(article.slug, i)"  >
+                <i class="far fa-heart"></i>({{favoritedCount[i].Count}})</a>
+              <a class="btn  article-like" *ngIf="favoritedCount[i].status" (click)="onUnfavoriteArticle(article.slug, i)"  >
+                <i class="fas fa-heart"></i>({{favoritedCount[i].Count}})</a> </div>
+
             </div>
           </div>
         </div>

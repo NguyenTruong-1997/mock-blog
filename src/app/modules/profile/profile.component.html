@@ -40,6 +40,17 @@
         {{ link.label }}
       </a>
     </nav>
+
   </div>
+  <router-outlet></router-outlet>
+  <div class="container" >
+   <mat-paginator [length]="100"
+              [pageSize]="10"
+
+              aria-label="Select page">
+</mat-paginator>
 </div>
-<router-outlet></router-outlet>
+</div>
+
+
+

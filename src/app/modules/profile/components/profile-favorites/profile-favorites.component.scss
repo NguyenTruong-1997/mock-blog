@@ -111,16 +111,14 @@
   text-decoration: none;
 }
 .article-like {
-  position: absolute;
-  top: 20px;
-  right: 32px;
-  z-index: 10;
-  padding: 2px 4px;
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 2px 0;
   font-size: 20px;
-  border-radius: 4px;
-  color: #aaa;
-  background: rgba(255, 255, 255, 0.08);
-  pointer-events: none;
+  line-height: 10px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: #ff7b7b;
 }
 .article-like :hover {
   color: #ff7b7b;

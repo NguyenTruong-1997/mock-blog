@@ -3,7 +3,7 @@
     <div class="row">
       <div
         class="article col col-4 col-d-6 col-t-12"
-        *ngFor="let article of listArticle"
+        *ngFor="let article of listArticle; let i = index"
       >
         <div class="article-card">
           <a class="article-img">
@@ -39,9 +39,10 @@
               <div class="article-bottom-meta">
                 <a  class="article-bottom-user">{{article.author.username}}</a>
               </div>
-              <a class="btn  article-like"  (click)="onFavoriteArticle(article.slug)" >
-                <i class="fas fa-heart"></i>({{article.favoritesCount}})</a
-                >
+              <a class="btn  article-like" *ngIf="!favoritedCount[i].status"  (click)="onFavoriteArticle(article.slug, i)"  >
+                <i class="far fa-heart"></i>({{favoritedCount[i].Count}})</a>
+              <a class="btn  article-like" *ngIf="favoritedCount[i].status" (click)="onUnfavoriteArticle(article.slug, i)"  >
+                <i class="fas fa-heart"></i>({{favoritedCount[i].Count}})</a>
             </div>
           </div>
         </div>
