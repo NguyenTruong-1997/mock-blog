@@ -3,6 +3,7 @@ import { GetProfile } from './../models/profile.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BlogService } from './blog.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +75,7 @@ export class ConnectApiService {
     });
   }
 
-  public onGetGlobalFeedArticles(offset: number) {
+  public onGetGlobalFeedArticles(offset: number){
     return this.http.get<MultiArticle>(this.API_URL + `/articles/?limit=10&offset=${offset}`, {
       headers: this.headers,
     });

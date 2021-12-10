@@ -1,17 +1,51 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { BlogService } from 'src/app/shared/services/blog.service';
 
 @Injectable()
 export class HomeService {
-  //#region Properties
+  private readonly API_URL = 'https://conduit.productionready.io/api';
 
-  //#end region
+  public constructor(
+    private http: HttpClient,
+    private blogService: BlogService
+  ) {}
 
-  //#region Constructor
-  public constructor() { }
+  private headersAuth() {
+    const token = this.blogService.onGetToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+      Authorization: `Bearer ${token}`,
+    });
+    return headers;
+  }
 
-  //#end region
+  tag$ = new BehaviorSubject<{}>({ type: 'all', filters: {} });
+  tag = this.tag$.asObservable();
 
-  //#region Methods
+  tagName$ = new BehaviorSubject<string>('');
+  tagName = this.tagName$.asObservable();
 
-  //#end region
+  setTag(value: any) {
+    this.tag$.next(value);
+  }
+
+  setTagName(value: any) {
+    this.tagName$.next(value);
+  }
+
+  public onFavoriteArticlePost(slug: string) : Observable<any> {
+    return this.http.post(
+      this.API_URL + `/articles/${slug}/favorite`,
+      {},
+      { headers: this.headersAuth() }
+    );
+  }
+
+  public onFavoriteArticleDel(slug: string) : Observable<any> {
+    return this.http.delete(this.API_URL + `/articles/${slug}/favorite`, {
+      headers: this.headersAuth(),
+    });
+  }
 }

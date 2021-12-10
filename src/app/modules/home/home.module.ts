@@ -3,26 +3,24 @@ import { HomeService } from './service/home.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
-import { ArticleComponent } from './components/article/article.component';
-import { TagListComponent } from './components/tag-list/tag-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { ArticleListComponent } from './components/article-list/article-list.component';
+import { TagListComponent } from './components/tag-list/tag-list.component';
+import { ArticleFeedComponent } from './components/article-feed/article-feed.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    ArticleComponent,
-    TagListComponent
+    ArticleListComponent,
+    TagListComponent,
+    ArticleFeedComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild([
-      { path: '', component: HomeComponent },
-    ])
+    RouterModule.forChild([{ path: '', component: HomeComponent }]),
   ],
-  providers: [HomeService]
+  providers: [HomeService],
 })
-export class HomeModule { }
+export class HomeModule {}

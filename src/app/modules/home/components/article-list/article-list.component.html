@@ -1,0 +1,56 @@
+<div class="article-preview" *ngFor="let article of results;let i = index">
+  <div class="article-meta">
+    <a [routerLink]="['/profile', article.author.username]">
+      <img [src]="article.author.image" style="width: 30px; height: 30px" />
+    </a>
+
+    <div class="info">
+      <a class="author" routerLink="/profile">
+        {{ article.author.username}} {{ article.favorited }} 
+      </a>
+      <span class="date">
+        {{ article.createdAt | date: "longDate" }}
+      </span>
+    </div>
+
+  <button class="m-2 p-2" style="cursor: pointer;" (click)="tonggleFavorite(article,i)" >
+    <i class="fas fa-heart mx-2" style="font-size: 20px;color: tomato;"></i>
+    {{article.favorited}}
+  </button>
+
+
+    <a [routerLink]="['/article', article.slug]" class="preview-link">
+      <h1>{{ article.title }}</h1>
+      <p>{{ article.description }}</p>
+      <span>Read more...</span>
+      <ul class="tag-list">
+        <li
+          class="tag-default tag-pill tag-outline"
+          *ngFor="let tag of article.tagList"
+        >
+          {{ tag }}
+        </li>
+      </ul>
+    </a>
+  </div>
+
+  <div class="app-article-preview" [hidden]="!loading">Loading articles...</div>
+
+  <div class="app-article-preview" [hidden]="loading || results.length">
+    No articles are here... yet.
+  </div>
+  <pre>{{results | json}}</pre>
+
+  <!-- <nav [hidden]="loading || totalPages.length <= 1">
+  <ul class="pagination">
+    <li
+      class="page-item"
+      [ngClass]="{ active: pageNumber === currentPage }"
+      *ngFor="let pageNumber of totalPages"
+      (click)="setPageTo(pageNumber)"
+    >
+      <a class="page-link">{{ pageNumber }}</a>
+    </li>
+  </ul>
+</nav> -->
+</div>
