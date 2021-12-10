@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -32,12 +33,26 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const signupSub = this.authService.registration(form.value)
       .subscribe(() => {
-        this.isLoading = false;
-        alert('Welcome please login to access and see the entire library of members-only content');
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#0f0e15',
+          confirmButtonColor: '#0f0e15',
+          title: 'Conglaturation!',
+          text: 'Succesful login!'
+        });
         this.roter.navigate(['../auth/login']);
       }, (err) => {
+        console.log(err);
+        
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Email has already been taken!'
+        })
+      }, () => {
         this.isLoading = false;
-        alert('Email or username ' + err.error.errors['email'][0]);
       })
 
     this.subscriptions.add(signupSub);

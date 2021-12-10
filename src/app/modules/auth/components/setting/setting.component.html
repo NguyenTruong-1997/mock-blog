@@ -95,33 +95,8 @@
             </mat-error>
           </mat-form-field>
 
-          <!-- <mat-form-field appearance="outline" class="w-100">
-            <mat-label>New Password</mat-label>
-            <input
-              type="password"
-              matInput
-              placeholder="Password"
-              ngModel
-              name="password"
-              #password="ngModel"
-              required
-              minlength="6"
-              maxlength="12"
-            />
-            <mat-error
-              *ngIf="
-                (password.hasError('minlength') || password.hasError('maxlength')) && !password.hasError('required')
-              "
-            >
-              Please enter a valid password
-            </mat-error>
-            <mat-error *ngIf="password.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field> -->
-
           <div class="mb-3 text-end">
-            <button mat-raised-button color="primary" type="submit">
+            <button mat-raised-button color="primary" type="submit" [disabled]="settingForm.form.invalid">
               Update settings
             </button>
           </div>

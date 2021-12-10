@@ -33,12 +33,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const loginSub = this.authService.login(form.value)
       .subscribe(() => {
-        Swal.fire('success');
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#0f0e15',
+          confirmButtonColor: '#0f0e15',
+          title: 'Conglaturation!',
+          text: 'Succesful login!'
+        });
         this.roter.navigate(['../home']);
       }, (err) => {
-        // alert('Email or password ' + err?.error?.errors['email or password'][0]);
         console.log(err);
-        
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Email or password is invalid!'
+        })
       },() => {
         this.isLoading = false;
       })

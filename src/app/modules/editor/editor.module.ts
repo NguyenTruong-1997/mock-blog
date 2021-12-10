@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/loading-spinner.module';
+import { CandeactiveService } from 'src/app/shared/services/candeactive.service';
 
 
 
@@ -24,10 +25,10 @@ import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/
     MatInputModule,
     LoadingSpinnerModule,
     RouterModule.forChild([
-      { path: '', component: EditorComponent },
-      { path: ':slug', component: EditorComponent }
+      { path: '', component: EditorComponent, canDeactivate: [CandeactiveService] },
+      { path: ':slug', component: EditorComponent, canDeactivate: [CandeactiveService] }
     ])
   ],
-  providers: [EditorService]
+  providers: [EditorService, CandeactiveService]
 })
 export class EditorModule { }
