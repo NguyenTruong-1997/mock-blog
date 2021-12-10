@@ -1,5 +1,4 @@
 import {
-  User,
   FormLogin,
   FormRegistration,
   Registration,
@@ -33,14 +32,13 @@ export class AuthService {
   //login
   public login(form: FormLogin) {
     return this.http
-      .post<User>(
+      .post<GetUser>(
         this.API_URL + '/users/login',
         { user: { ...form } }
       )
       .pipe(
-        tap((res: User) => {
-          this.currentUser.next({ user: res });
-          localStorage.removeItem('CURRENT_USER');
+        tap((res: GetUser) => {
+          this.currentUser.next(res);
           localStorage.setItem('CURRENT_USER', JSON.stringify(res));
         })
       );
@@ -64,7 +62,7 @@ export class AuthService {
 
   //getUser
   public getUser() {
-    return this.http.get<User>(this.API_URL + '/user');
+    return this.http.get<GetUser>(this.API_URL + '/user');
   }
 
   //updateUser
