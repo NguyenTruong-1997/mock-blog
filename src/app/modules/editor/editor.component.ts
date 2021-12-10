@@ -1,18 +1,21 @@
 import { ConnectApiService } from './../../shared/services/connect-api.service';
 import { NgForm } from '@angular/forms';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
 import { SingleArticle } from 'src/app/shared/models/article.model';
+import { CanComponentDeactivate } from 'src/app/shared/services/candeactive.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
 })
-export class EditorComponent implements OnInit, OnDestroy {
+export class EditorComponent implements OnInit, OnDestroy, CanComponentDeactivate {
   //#region Properties
+  @ViewChild('submitForm') submitForm!: NgForm;
   public subscriptions = new Subscription();
 
   public isEdit = false;
@@ -63,6 +66,25 @@ export class EditorComponent implements OnInit, OnDestroy {
       );
 
     this.subscriptions.add(paramsSub);
+  }
+
+  public canDeativate(): boolean {
+    if(this.submitForm.form.dirty) {
+      Swal.fire({
+        iconColor: '#0f0e15',
+        confirmButtonColor: '#0f0e15',
+        showCancelButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'question',
+            title: 'Wait!?',
+            text: 'Are you sure',
+          })
+        }
+      })
+    }
+    return true;
   }
 
   public onSubmit(form: NgForm) {

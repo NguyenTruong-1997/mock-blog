@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GetUser } from 'src/app/shared/models/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { BlogService } from 'src/app/shared/services/blog.service';
 
 @Component({
   selector: 'app-header',
@@ -15,13 +16,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public isLogin: boolean = false;
 
-  public currenUser: User | undefined;
+  public currenUser!: User;
 
   //#end region
 
   //#region Constructor
   public constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private blogService: BlogService
   ) { }
 
   //#end region
@@ -31,13 +33,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const currentUserSub = this.authService.currentUser.subscribe((user: GetUser | null) => {
       this.isLogin = !user ? false : true;
     })
-    
-    const getUserSub = this.authService.getUser().subscribe((user: GetUser) => {
-      this.currenUser = user.user;
-    })
 
+    if(this.blogService.isLogin()) {
+      const getUserSub = this.authService.getUser().subscribe((user: GetUser) => {
+        this.currenUser = user.user;
+      }, (err) => {
+        console.log(err);
+      })
+  
+      this.subscriptions.add(getUserSub);
+    }
+    
     this.subscriptions.add(currentUserSub);
-    this.subscriptions.add(getUserSub);
   }
 
   public ngOnDestroy(): void {
