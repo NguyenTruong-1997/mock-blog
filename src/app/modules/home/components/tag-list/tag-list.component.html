@@ -4,7 +4,7 @@
   <div class="tag-list d-flex my-4">
     <button
       *ngFor="let tag of tags"
-      (click)="setListTo('', { tag: tag })"
+      (click)="setListTo('', tag)"
       class="btn btn-sm btn-primary m-1"
     >
       {{ tag }}

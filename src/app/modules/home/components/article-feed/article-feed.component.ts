@@ -11,7 +11,7 @@ import { HomeService } from '../../service/home.service';
 export class ArticleFeedComponent implements OnInit {
   listConfig: any = {
     type: 'all',
-    filters: {},
+    filters: '',
   };
 
   constructor(private homeService: HomeService,private blogService: BlogService,
@@ -23,7 +23,7 @@ export class ArticleFeedComponent implements OnInit {
     });
   }
 
-  setListTo(type: string = '', filters: Object = {}) {
+  setListTo(type: string = '', filters?: '') {
     if (type === 'feed' && !this.blogService.isLogin()) {
       this.router.navigateByUrl('auth/login');
       return;

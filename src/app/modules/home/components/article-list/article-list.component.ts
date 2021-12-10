@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
 import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
 
 import { Article } from '../../../../shared/models/article.model';
 import { HomeService } from '../../service/home.service';
 
-// import {}
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
@@ -13,9 +13,6 @@ import { HomeService } from '../../service/home.service';
 export class ArticleListComponent implements OnInit {
   results: Article[] = [];
   loading: boolean = true;
-  touchedFavorite: boolean = false;
-  countFavorite: any[] = [];
-  stateFavorite : boolean = false;
 
   constructor(
     private connectApiService: ConnectApiService,
@@ -25,74 +22,45 @@ export class ArticleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.homeService.tag.pipe(
-      concatMap()
-    )
+      switchMap((name:any) => {
+        if(name.type === "all"){
+          console.log(name.type);          
+          return this.connectApiService.onGetGlobalFeedArticles(0);
+        }else if(name.type === "feed"){
+          console.log(name.type);
+          return this.connectApiService.onGetMyFeedArticles(0);
+        }else {
+          return this.connectApiService.onGetMultiArticlesByTag(0,name.filters);
+        }
+      })
+    ).subscribe(res => {
+      this.loading = false;
+      this.results = res!.articles;
+    })
     
-    
-    
-    
-    subscribe((res: any) => {
-      if (res.type === 'all') {
-        this.connectApiService.onGetGlobalFeedArticles(0).subscribe((data) => {
-          if (data) {
-            this.loading = false;
-            this.results = data.articles;
-            console.log(data.articles);
-            
-            if(this.countFavorite.length === 0) {
-              this.results.forEach(countF => {
-                this.countFavorite.push({count : countF.favoritesCount , status : countF.favorited , slug : countF.slug})
-              })
-              console.log(this.countFavorite);
-            }
-          }
-        });
-      } else if (res.type === 'feed') {
-        this.connectApiService.onGetMyFeedArticles(0).subscribe((data) => {
-          if (data) {
-            this.loading = false;
-            this.results = data.articles;
-            console.log(this.results);
-          }
-        });
-      }
-    });
-
-    this.homeService.tagName.subscribe((res) => {
-      this.connectApiService
-        .onGetMultiArticlesByTag(0, res)
-        .subscribe((data) => {
-          this.results = data.articles;
-        });
-    });
   }
 
   tonggleFavorite(article: any,i:number) {
-    if ( this.countFavorite[i].status) {
-      this.homeService
-        .onFavoriteArticleDel(article.slug)
+    if (article.favorited) {
+      this.connectApiService
+        .onUnfavoriteArticle(article.slug)
         .subscribe((res) => 
         {
-          let index = this.countFavorite.findIndex(el => el.slug === article.slug)
-          this.countFavorite[index] = {count : res.article.favoritesCount , status : false, slug : article.slug }
-          console.log(this.countFavorite , index);
+          this.results[i].favoritesCount = res.article.favoritesCount;
+          this.results[i].favorited = res.article.favorited;
         }
          );
       console.log("del");
     } else {
-      this.homeService
-        .onFavoriteArticlePost(article.slug)
+      this.connectApiService
+        .onFavoriteArticle(article.slug)
         .subscribe((res) => 
         {
-          let index = this.countFavorite.findIndex(el => el.slug === article.slug)
-          this.countFavorite[index] = {count : res.article.favoritesCount , status : true , slug : article.slug }
-          console.log(this.countFavorite , index);
+          this.results[i].favoritesCount = res.article.favoritesCount;
+          this.results[i].favorited = res.article.favorited;
         });
       console.log("post");
     }
   }
 
-  onDestroy() {
-    this.loading = true;
-  }
 }

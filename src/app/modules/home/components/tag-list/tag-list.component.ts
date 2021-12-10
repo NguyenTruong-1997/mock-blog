@@ -11,7 +11,6 @@ import { HomeService } from '../../service/home.service';
 export class TagListComponent implements OnInit {
   tags: any = [];
   tagsLoaded = false;
-  results: Article[] = [];
   listConfig: any = {
     type: 'all',
     filters: {},
@@ -35,7 +34,6 @@ export class TagListComponent implements OnInit {
   }
 
   setListTo(type: string = '', filters: any) {
-    this.homeService.setTagName(filters.tag);
     this.homeService.setTag({ type: type, filters: filters });
   }
 }
