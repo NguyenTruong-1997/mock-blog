@@ -3,7 +3,7 @@
 </div> -->
 
 <div class="bg-black1 mx-auto">
-  <div class="container" style="width: 40%; height: 40%">
+  <div class="container display-pc">
     <div class="post-meta">
       <time class="post-date">{{ article?.createdAt | date: "longDate" }}</time>
     </div>
@@ -19,21 +19,26 @@
         </a>
       </div>
       <div class="post-bottom">
-        <a routerLink="/profile" class="post-author-link"
+        <a
+          routerLink="/profile/{{ article?.author?.username }}"
+          class="post-author-link"
           >{{ article?.author?.username }}
         </a>
-        <span class="post-tag">
+        <span
+          class="post-tag"
+          *ngIf="currentUser?.user?.username !== article?.author?.username"
+        >
           <a
             ><span
               class="text-gray"
-              *ngIf="follow === false"
-              (click)="followArticle(article.author.username)"
+              *ngIf="!article?.author?.following"
+              (click)="followArticle()"
               ><i class="fas fa-plus"></i> Follow
               {{ article?.author?.username }}</span
             ><span
               class="text-gray"
-              *ngIf="follow === true"
-              (click)="unfollowArticle(article.author.username)"
+              *ngIf="article?.author?.following"
+              (click)="unfollowArticle()"
               ><i class="fas fa-plus"></i> Unfollow
               {{ article?.author?.username }}
             </span></a
@@ -55,12 +60,17 @@
           >
         </span>
 
-        <!-- <span class="post-tag">
-          <a href="#"><i class="fas fa-edit"></i> Edit Article</a>
-          <a href="#" class="text-danger"
+        <span
+          class="post-tag"
+          *ngIf="currentUser?.user?.username === article?.author?.username"
+        >
+          <a (click)="updateArticle()"
+            ><i class="fas fa-edit"></i> Edit Article</a
+          >
+          <a (click)="deleteArticles()" class="text-danger"
             ><i class="fas fa-trash-alt"></i> Delete Article</a
           >
-        </span> -->
+        </span>
       </div>
     </div>
   </div>
@@ -70,9 +80,11 @@
         <p>
           {{ article?.body }}
         </p>
-        <!-- <div class="post-tag">
-          <span class="text-gray">{{ articleList.tagList }}</span>
-        </div> -->
+        <div class="post-tag d-flex">
+          <a class="text-gray me-2" *ngFor="let tag of article?.tagList">{{
+            tag
+          }}</a>
+        </div>
       </div>
     </div>
   </div>
@@ -81,12 +93,13 @@
     <form
       #comment="ngForm"
       class="example-form mx-auto"
-      (submit)="addComment(comment)"
+      (ngSubmit)="addComment(comment)"
     >
       >
       <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Write a comment</mat-label>
+        <mat-label class="text-input-header">Write a comment</mat-label>
         <textarea
+          class="text-input"
           matInput
           ngModel
           name="comment"
@@ -116,7 +129,10 @@
         </div>
         <div class="card-footer">
           <div class="float-start">
-            <a routerLink="/profile" class="comment-author">
+            <a
+              routerLink="/profile/{{ article?.author?.username }}"
+              class="comment-author"
+            >
               <img
                 src="{{ comment?.author?.image }}"
                 alt="img-author"
@@ -124,7 +140,7 @@
               />
             </a>
             <a
-              routerLink="/profile"
+              routerLink="/profile/{{ comment?.author?.username }}"
               class="comment-author"
               style="color: rgba(255, 123, 123, 0.7); margin-left: 8px"
               >{{ comment?.author?.username }}</a
@@ -135,11 +151,11 @@
           </div>
           <div
             class="float-end"
-            *ngIf="currentUser.user.username === comment.author.username"
+            *ngIf="currentUser.user.username === comment?.author?.username"
           >
             <span
               (click)="deleteComment(comment?.id)"
-              class="pull-right"
+              class="pull-right icon-trash"
               style="cursor: pointer"
               ><i class="fas fa-trash"></i
             ></span>

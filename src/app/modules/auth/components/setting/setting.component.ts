@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { GetUser } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-setting',
@@ -16,6 +17,11 @@ export class SettingComponent implements OnInit, OnDestroy {
   @ViewChild('settingForm') settingForm!: NgForm;
 
   public isLoading = false;
+
+  public imagePath = '';
+  public userName = '';
+  public shortBio = '';
+  public currentEmail = '';
 
   //#end region
 
@@ -32,13 +38,10 @@ export class SettingComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const getUserSub = this.authService.currentUser
       .subscribe(res => {
-        this.settingForm.setValue({
-          imageURL: res?.user?.image || '',
-          username: res?.user?.username || '',
-          email: res?.user?.email || '',
-          bio: res?.user?.bio || '',
-          password: ''
-        })
+        this.imagePath = res?.user?.image || 'https://api.realworld.io/images/smiley-cyrus.jpeg';
+        this.userName = res?.user?.username || '',
+        this.currentEmail = res?.user?.email || '',
+        this.shortBio = res?.user?.bio || ''
       })
 
       this.subscriptions.add(getUserSub);
@@ -48,17 +51,23 @@ export class SettingComponent implements OnInit, OnDestroy {
   public onSetting(form: NgForm) {
     this.isLoading = true;
     const settingSub = this.authService.updateUser(form.value)
-      .subscribe(res => {
+      .subscribe((res: GetUser) => {
         this.isLoading = false;
-        this.authService.currentUser.next({ user: res });
         this.roter.navigate(['../home']);
       }, (err) => {
         this.isLoading = false;
         console.log(err);
-        
+        alert('Something went wrong!');
       })
 
     this.subscriptions.add(settingSub);
+  }
+
+  public onLogout() {
+    alert('Are your sure to logout');
+    localStorage.removeItem('CURRENT_USER');
+    this.authService.currentUser.next(null);
+    this.roter.navigate(['../home']);
   }
 
   public ngOnDestroy(): void {

@@ -1,9 +1,9 @@
 .header {
   background-color: #0f0e15;
-  padding: 60px 0;
+  padding: 20px 0;
   .container {
     .navbar-brand {
-      font-size: 28px;
+      font-size: 30px;
       line-height: 1;
       font-weight: 900;
       vertical-align: middle;
@@ -11,8 +11,16 @@
       text-transform: uppercase;
       text-decoration: none;
       letter-spacing: -1px;
+      img {
+        background-color: #fff;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
       &:hover {
         color: rgba(255,123,123,.7);
+        img {
+          background-color: rgba(255,123,123,.7);
+        }
       }
     }
     .nav-pills {
@@ -26,6 +34,13 @@
           color: #eee;
           &:hover {
             color: rgba(255,123,123,.7);
+          }
+          img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            padding: 1px;
+            border: 2px solid #ff7b7b;
           }
         }
         .underlight {

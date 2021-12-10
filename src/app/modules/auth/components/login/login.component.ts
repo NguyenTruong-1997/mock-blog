@@ -36,7 +36,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.roter.navigate(['../home']);
       }, (err) => {
         this.isLoading = false;
-        alert('Email or password ' + err.error.errors['email or password'][0]);
+        // alert('Email or password ' + err?.error?.errors['email or password'][0]);
+        console.log(err);
+        
       })
 
     this.subscriptions.add(loginSub);

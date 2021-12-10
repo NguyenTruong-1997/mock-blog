@@ -3,14 +3,13 @@
   .setting-form {
     width: 100%;
     max-width: 550px;
-    margin: 80px auto 10vw;
-    h1 {
-      margin-bottom: 8px;
-      font-size: 48px;
-      color: #fff;
-      font-weight: 900;
-      line-height: 1.4em;
-      letter-spacing: -1px;
+    margin: 0 auto 1vw;
+    .setting__title {
+      img {
+        background-color: #fff;
+        border-radius: 50%;
+        margin: 50px;
+      }
     }
     p {
       margin-bottom: 30px;
@@ -21,16 +20,21 @@
         text-decoration: underline;
       }
     }
-    input {
+    input, textarea {
       color: #fff;
     }
     .image-preview img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
+      padding: 6px;
+      border: 3px solid #ff7b7b;
     }
     .hightlight {
       border: 1px solid #fff;
     }
+  }
+  .spinner {
+    margin: 80px auto 31vw;
   }
 }

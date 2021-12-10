@@ -3,7 +3,10 @@
     <nav class="navbar navbar-expand-lg" data-cy="headerComponent">
       <div class="container-fluid d-flex">
         <div class="navbar-header">
-          <a class="navbar-brand" [routerLink]="['./home']">Wibu</a>
+          <a class="navbar-brand d-flex align-items-center" [routerLink]="['./home']">
+            <img src="https://img.icons8.com/ios/50/000000/circled-w.png"/>
+            <span>Wibook</span>
+          </a>
         </div>
     
         <div class="collapse navbar-collapse justify-content-end">
@@ -21,7 +24,9 @@
               <a class="nav-link" [routerLink]="['./editor']" routerLinkActive="underlight">New Article</a>
             </li>
             <li class="nav-item" routerLinkActive="active" *ngIf="isLogin">
-              <a class="nav-link" [routerLink]="['./profile']" routerLinkActive="underlight">User</a>
+              <a class="nav-link" [routerLink]="['./profile']" routerLinkActive="underlight">{{ currenUser?.username }}
+                <img [src]="currenUser?.image ? currenUser?.image : 'https://api.realworld.io/images/smiley-cyrus.jpeg'" >
+              </a>
             </li>
           </ul>
         </div>

@@ -2,7 +2,7 @@ import { Article } from './../../shared/models/article.model';
 import { ConnectApiService } from './../../shared/services/connect-api.service';
 import { Component, OnInit } from '@angular/core';
 import { Comment } from './../../shared/models/article.model';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { Profile } from 'src/app/shared/models/profile.model';
@@ -14,7 +14,6 @@ import { Profile } from 'src/app/shared/models/profile.model';
 })
 export class ArticleComponent implements OnInit {
   //#region Properties
-  profile!: Profile;
   article!: Article;
   follow: boolean = false;
   articleComment: Comment[] = [];
@@ -24,7 +23,8 @@ export class ArticleComponent implements OnInit {
   //#region Constructor
   public constructor(
     private getAPI: ConnectApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   //#end region
@@ -57,15 +57,8 @@ export class ArticleComponent implements OnInit {
   }
 
   addComment(comment: NgForm) {
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.getAPI.onAddComment(
-            { body: comment.value.comment },
-            params.slug
-          );
-        })
-      )
+    this.getAPI
+      .onAddComment({ body: comment.value.comment }, this.article.slug)
       .subscribe((data: any) => {
         this.articleComment.push(data.comment);
       });
@@ -73,56 +66,50 @@ export class ArticleComponent implements OnInit {
 
   deleteComment(id: any) {
     const index = this.articleComment.findIndex((comment) => comment.id === id);
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.getAPI.onDeleteComment(params.slug, id);
-        })
-      )
+    this.getAPI
+      .onDeleteComment(this.article.slug, id)
       .subscribe((data: any) => {
         this.articleComment.splice(index);
       });
   }
   //#end region
-  changeFollow() {
-    this.follow = !this.follow;
-  }
-
   favoriteArticle() {
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.getAPI.onFavoriteArticle(params.slug);
-        })
-      )
-      .subscribe((data: any) => {
-        this.article = data.article;
-      });
-  }
-
-  unFavoriteArticle() {
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.getAPI.onUnfavoriteArticle(params.slug);
-        })
-      )
-      .subscribe((data: any) => {
-        this.article = data.article;
-      });
-  }
-
-  followArticle(userName: string) {
-    this.getAPI.onFollowUser(userName).subscribe((follow) => {
-      this.profile = follow.profile;
-      console.log(this.profile);
+    this.getAPI.onFavoriteArticle(this.article.slug).subscribe((data: any) => {
+      this.article = data.article;
     });
   }
 
-  unfollowArticle(userName: string) {
-    this.getAPI.onUnfollowUser(userName).subscribe((follow) => {
-      this.profile = follow.profile;
-      console.log(this.profile);
+  unFavoriteArticle() {
+    this.getAPI
+      .onUnfavoriteArticle(this.article.slug)
+      .subscribe((data: any) => {
+        this.article = data.article;
+      });
+  }
+
+  followArticle() {
+    this.getAPI
+      .onFollowUser(this.article.author.username)
+      .subscribe((follow: { profile: Profile }) => {
+        this.article.author = follow.profile!;
+      });
+  }
+
+  unfollowArticle() {
+    this.getAPI
+      .onUnfollowUser(this.article.author.username)
+      .subscribe((follow: { profile: Profile }) => {
+        this.article.author = follow.profile!;
+      });
+  }
+
+  updateArticle() {
+    this.router.navigate(['../../editor/', this.article.slug]);
+  }
+
+  deleteArticles() {
+    this.getAPI.onDeleteArticle(this.article.slug).subscribe((data: any) => {
+      this.router.navigate(['home']);
     });
   }
 }

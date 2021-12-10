@@ -90,10 +90,13 @@ a {
   width: 100%;
 }
 
+.cmt-card {
+  border: 1px solid #eee;
+}
+
 .card-block {
   background-color: #0f0e15;
   padding: 1.25rem;
-  border: 1px solid #eee;
   color: #eee;
 }
 
@@ -103,9 +106,7 @@ a {
   font-size: 0.8rem;
   font-weight: 300;
   background-color: #0f0e15;
-  border-left: 1px solid #eee;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border-top: 2px solid #eee;
 }
 
 .comment-author-img {
@@ -143,4 +144,45 @@ a {
 .btn-none {
   background-color: #27272d;
   border: none;
+}
+
+//PC-laptop
+@media (min-width: 1024px) {
+  .display-pc {
+    width: 40%;
+    height: 40%;
+  }
+}
+
+//mobile
+@media (max-width: 480px) {
+  .icon-trash {
+    font-size: 23px;
+  }
+
+  .fas.fa-trash {
+    margin-top: 5px;
+  }
+
+  .text-input {
+    font-size: 22px;
+  }
+
+  .text-input-header {
+    font-size: 18px;
+  }
+
+  .comment-author-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 40px;
+  }
+
+  .icon {
+    font-size: 27px;
+  }
+
+  .card-footer {
+    height: 50px;
+  }
 }
