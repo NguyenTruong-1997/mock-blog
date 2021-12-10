@@ -1,16 +1,14 @@
 import {
-  User,
   FormLogin,
   FormRegistration,
   Registration,
   FormUpdateUser,
   GetUser,
 } from '../models/user.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { BlogService } from './blog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,43 +17,28 @@ export class AuthService {
   //#region Properties
   private readonly API_URL = 'https://conduit.productionready.io/api';
 
-  private readonly headers = new HttpHeaders({
-    'Content-Type': 'application/json; charset=utf-8',
-  });
-
   public currentUser = new BehaviorSubject<GetUser | null>(null);
   //#end region
 
   //#region Constructor
   public constructor(
-    private http: HttpClient,
-    private blogService: BlogService
+    private http: HttpClient
   ) {}
 
   //#end region
 
   //#region Methods
-  private headersAuth() {
-    const token = this.blogService.onGetToken();
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `Bearer ${token}`,
-    });
-    return headers;
-  }
 
   //login
   public login(form: FormLogin) {
     return this.http
-      .post<User>(
+      .post<GetUser>(
         this.API_URL + '/users/login',
-        { user: { ...form } },
-        { headers: this.headers }
+        { user: { ...form } }
       )
       .pipe(
-        tap((res: User) => {
-          this.currentUser.next({ user: res });
-          localStorage.removeItem('CURRENT_USER');
+        tap((res: GetUser) => {
+          this.currentUser.next(res);
           localStorage.setItem('CURRENT_USER', JSON.stringify(res));
         })
       );
@@ -73,24 +56,20 @@ export class AuthService {
   public registration(form: FormRegistration) {
     return this.http.post<Registration>(
       this.API_URL + '/users',
-      { user: { ...form } },
-      { headers: this.headers }
+      { user: { ...form } }
     )
   }
 
   //getUser
   public getUser() {
-    return this.http.get<User>(this.API_URL + '/user', {
-      headers: this.headersAuth()
-    });
+    return this.http.get<GetUser>(this.API_URL + '/user');
   }
 
   //updateUser
   public updateUser(form: FormUpdateUser) {
     return this.http.put<GetUser>(
       this.API_URL + '/user',
-      { user: { ...form } },
-      { headers: this.headersAuth() }
+      { user: { ...form } }
     )
     .pipe(
       tap((res: GetUser) => {

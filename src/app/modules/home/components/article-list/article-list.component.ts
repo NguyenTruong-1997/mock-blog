@@ -3,6 +3,8 @@ import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
 
 import { Article } from '../../../../shared/models/article.model';
 import { HomeService } from '../../service/home.service';
+
+// import {}
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
@@ -22,7 +24,14 @@ export class ArticleListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.homeService.tag.subscribe((res: any) => {
+    this.homeService.tag.pipe(
+      concatMap()
+    )
+    
+    
+    
+    
+    subscribe((res: any) => {
       if (res.type === 'all') {
         this.connectApiService.onGetGlobalFeedArticles(0).subscribe((data) => {
           if (data) {
@@ -30,12 +39,12 @@ export class ArticleListComponent implements OnInit {
             this.results = data.articles;
             console.log(data.articles);
             
-            // if(this.countFavorite.length === 0) {
-            //   this.results.forEach(countF => {
-            //     this.countFavorite.push({count : countF.favoritesCount , status : countF.favorited , slug : countF.slug})
-            //   })
-            //   console.log(this.countFavorite);
-            // }
+            if(this.countFavorite.length === 0) {
+              this.results.forEach(countF => {
+                this.countFavorite.push({count : countF.favoritesCount , status : countF.favorited , slug : countF.slug})
+              })
+              console.log(this.countFavorite);
+            }
           }
         });
       } else if (res.type === 'feed') {
@@ -49,38 +58,38 @@ export class ArticleListComponent implements OnInit {
       }
     });
 
-    // this.homeService.tagName.subscribe((res) => {
-    //   this.connectApiService
-    //     .onGetMultiArticlesByTag(0, res)
-    //     .subscribe((data) => {
-    //       this.results = data.articles;
-    //     });
-    // });
+    this.homeService.tagName.subscribe((res) => {
+      this.connectApiService
+        .onGetMultiArticlesByTag(0, res)
+        .subscribe((data) => {
+          this.results = data.articles;
+        });
+    });
   }
 
   tonggleFavorite(article: any,i:number) {
-    // if ( this.countFavorite[i].status) {
-    //   this.homeService
-    //     .onFavoriteArticleDel(article.slug)
-    //     .subscribe((res) => 
-    //     {
-    //       let index = this.countFavorite.findIndex(el => el.slug === article.slug)
-    //       this.countFavorite[index] = {count : res.article.favoritesCount , status : false, slug : article.slug }
-    //       console.log(this.countFavorite , index);
-    //     }
-    //      );
-    //   console.log("del");
-    // } else {
-    //   this.homeService
-    //     .onFavoriteArticlePost(article.slug)
-    //     .subscribe((res) => 
-    //     {
-    //       let index = this.countFavorite.findIndex(el => el.slug === article.slug)
-    //       this.countFavorite[index] = {count : res.article.favoritesCount , status : true , slug : article.slug }
-    //       console.log(this.countFavorite , index);
-    //     });
-    //   console.log("post");
-    // }
+    if ( this.countFavorite[i].status) {
+      this.homeService
+        .onFavoriteArticleDel(article.slug)
+        .subscribe((res) => 
+        {
+          let index = this.countFavorite.findIndex(el => el.slug === article.slug)
+          this.countFavorite[index] = {count : res.article.favoritesCount , status : false, slug : article.slug }
+          console.log(this.countFavorite , index);
+        }
+         );
+      console.log("del");
+    } else {
+      this.homeService
+        .onFavoriteArticlePost(article.slug)
+        .subscribe((res) => 
+        {
+          let index = this.countFavorite.findIndex(el => el.slug === article.slug)
+          this.countFavorite[index] = {count : res.article.favoritesCount , status : true , slug : article.slug }
+          console.log(this.countFavorite , index);
+        });
+      console.log("post");
+    }
   }
 
   onDestroy() {

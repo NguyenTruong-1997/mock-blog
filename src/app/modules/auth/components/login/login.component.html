@@ -8,7 +8,9 @@
         </div>
 
         <form novalidate #loginForm="ngForm" class="login-form" (submit)="loginForm.form.valid && onLogin(loginForm)" *ngIf="!isLoading">
-          <h1 class="login__title">Login</h1>
+          <div class="login__title text-center">
+            <img src="https://img.icons8.com/ios/100/000000/circled-w.png"/>
+          </div>
           <p class="login__desc">
             Unlock full access and see the entire library of members-only
             content &amp; updates.

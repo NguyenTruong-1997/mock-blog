@@ -3,14 +3,13 @@
   .login-form {
     width: 100%;
     max-width: 550px;
-    margin: 80px auto 10vw;
-    h1 {
-      margin-bottom: 8px;
-      font-size: 48px;
-      color: #fff;
-      font-weight: 900;
-      line-height: 1.4em;
-      letter-spacing: -1px;
+    margin: 20px auto 5vw;
+    .login__title {
+      img {
+        background-color: #fff;
+        border-radius: 50%;
+        margin: 50px;
+      }
     }
     p {
       margin-bottom: 30px;
@@ -26,6 +25,6 @@
     }
   }
   .spinner {
-    margin: 80px auto 25vw;
+    margin: 80px auto 31vw;
   }
 }

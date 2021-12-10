@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { GetUser } from 'src/app/shared/models/user.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-setting',
@@ -18,6 +19,11 @@ export class SettingComponent implements OnInit, OnDestroy {
 
   public isLoading = false;
 
+  public imagePath = '';
+  public userName = '';
+  public shortBio = '';
+  public currentEmail = '';
+
   //#end region
 
   //#region Constructor
@@ -31,14 +37,21 @@ export class SettingComponent implements OnInit, OnDestroy {
   //#region Methods
   public ngOnInit(): void {
     setTimeout(() => {
-      const getUserSub = this.authService.currentUser
-      .subscribe(res => {
-        this.settingForm.setValue({
-          image: res?.user?.image || '',
-          username: res?.user?.username || '',
-          email: res?.user?.email || '',
-          bio: res?.user?.bio || ''
+      this.isLoading = true;
+      const getUserSub = this.authService.getUser().subscribe((res: GetUser) => {
+        this.imagePath = res.user.image || 'https://api.realworld.io/images/smiley-cyrus.jpeg';
+        this.userName = res.user.username || '',
+        this.currentEmail = res.user.email || '',
+        this.shortBio = res.user.bio || ''
+      }, (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!'
         })
+      }, () => {
+        this.isLoading = false;
       })
 
       this.subscriptions.add(getUserSub);
@@ -49,12 +62,25 @@ export class SettingComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const settingSub = this.authService.updateUser(form.value)
       .subscribe((res: GetUser) => {
-        this.isLoading = false;
+      Swal.fire({
+        icon: 'success',
+        iconColor: '#0f0e15',
+        confirmButtonColor: '#0f0e15',
+        title: 'Conglaturation!',
+        text: 'Succesful update setting!'
+      });
         this.roter.navigate(['../home']);
       }, (err) => {
-        this.isLoading = false;
         console.log(err);
-        alert('Something went wrong!');
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!'
+        })
+      },() => {
+        this.isLoading = false;
       })
 
     this.subscriptions.add(settingSub);

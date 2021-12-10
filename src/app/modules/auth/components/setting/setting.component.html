@@ -13,7 +13,9 @@
           #settingForm="ngForm"
           (submit)="settingForm.form.valid && onSetting(settingForm)"
         >
-          <h1 class="setting__title text-center">Your Profile</h1>
+        <div class="setting__title text-center">
+          <img src="https://img.icons8.com/ios/100/000000/circled-w.png"/>
+        </div>
 
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Image URL</mat-label>
@@ -21,7 +23,7 @@
               type="url"
               matInput
               placeholder="Image URL"
-              ngModel
+              [(ngModel)]="imagePath"
               name="image"
               #image="ngModel"
               required
@@ -38,7 +40,7 @@
           </mat-form-field>
 
           <div
-            class="image-preview"
+            class="image-preview mb-3"
             *ngIf="!image.hasError('pattern') && image.value"
           >
             <img [src]="image.value" class="d-block mx-auto" />
@@ -50,7 +52,7 @@
               type="text"
               matInput
               placeholder="Username"
-              ngModel
+              [(ngModel)]="userName"
               name="username"
               #username="ngModel"
               required
@@ -65,7 +67,7 @@
             <textarea
               matInput
               placeholder="Short bio about you"
-              ngModel
+              [(ngModel)]="shortBio"
               name="bio"
               #bio="ngModel"
             ></textarea>
@@ -77,7 +79,7 @@
               type="email"
               matInput
               placeholder="Email"
-              ngModel
+              [(ngModel)]="currentEmail"
               name="email"
               #name="ngModel"
               required
@@ -93,33 +95,8 @@
             </mat-error>
           </mat-form-field>
 
-          <!-- <mat-form-field appearance="outline" class="w-100">
-            <mat-label>New Password</mat-label>
-            <input
-              type="password"
-              matInput
-              placeholder="Password"
-              ngModel
-              name="password"
-              #password="ngModel"
-              required
-              minlength="6"
-              maxlength="12"
-            />
-            <mat-error
-              *ngIf="
-                (password.hasError('minlength') || password.hasError('maxlength')) && !password.hasError('required')
-              "
-            >
-              Please enter a valid password
-            </mat-error>
-            <mat-error *ngIf="password.hasError('required')">
-              Password is <strong>required</strong>
-            </mat-error>
-          </mat-form-field> -->
-
           <div class="mb-3 text-end">
-            <button mat-raised-button color="primary" type="submit">
+            <button mat-raised-button color="primary" type="submit" [disabled]="settingForm.form.invalid">
               Update settings
             </button>
           </div>

@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -32,11 +33,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const loginSub = this.authService.login(form.value)
       .subscribe(() => {
-        this.isLoading = false;
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#0f0e15',
+          confirmButtonColor: '#0f0e15',
+          title: 'Conglaturation!',
+          text: 'Succesful login!'
+        });
         this.roter.navigate(['../home']);
       }, (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Email or password is invalid!'
+        })
+      },() => {
         this.isLoading = false;
-        alert('Email or password ' + err.error.errors['email or password'][0]);
       })
 
     this.subscriptions.add(loginSub);
