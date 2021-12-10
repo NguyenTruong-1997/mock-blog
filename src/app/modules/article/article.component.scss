@@ -146,6 +146,15 @@ a {
   border: none;
 }
 
+.row > .col-12 > .text-center.spinner {
+  padding: 220px;
+}
+
+.spinner {
+  background-color: #0f0e15;
+  padding: 80px auto 31vw;
+}
+
 //PC-laptop
 @media (min-width: 1024px) {
   .display-pc {

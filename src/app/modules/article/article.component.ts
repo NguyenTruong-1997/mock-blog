@@ -6,6 +6,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { Profile } from 'src/app/shared/models/profile.model';
+import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-article',
@@ -13,11 +15,14 @@ import { Profile } from 'src/app/shared/models/profile.model';
   styleUrls: ['./article.component.scss'],
 })
 export class ArticleComponent implements OnInit {
+  public subscriptions = new Subscription();
   //#region Properties
-  article!: Article;
-  follow: boolean = false;
-  articleComment: Comment[] = [];
-  currentUser = JSON.parse(localStorage.getItem('CURRENT_USER') || '{}');
+  public article!: Article;
+  public follow: boolean = false;
+  public articleComment: Comment[] = [];
+  public currentUser = JSON.parse(localStorage.getItem('CURRENT_USER') || '{}');
+  public isLoading!: boolean;
+  public isLoadingComment!: boolean;
   //#end region
 
   //#region Constructor
@@ -31,76 +36,163 @@ export class ArticleComponent implements OnInit {
 
   //#region Methods
   public ngOnInit(): void {
-    this.route.params
+    this.isLoading = true;
+
+    const getData = this.route.params
       .pipe(
         switchMap((params: Params) => {
           return this.getAPI.onGetArticleBySlug(params.slug);
-        })
-      )
-      .subscribe((data) => {
-        if (data) {
+        }),
+        switchMap((data) => {
           this.article = data.article;
-        }
-      });
-
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.getAPI.onGetComment(params.slug);
+          return this.getAPI.onGetComment(data.article.slug);
         })
       )
-      .subscribe((data) => {
-        if (data) {
+      .subscribe(
+        (data) => {
+          this.isLoading = false;
           this.articleComment = data.comments;
+        },
+        (err) => {
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            iconColor: '#d33',
+            confirmButtonColor: '#0f0e15',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          });
         }
-      });
+      );
+
+    this.subscriptions.add(getData);
   }
 
   addComment(comment: NgForm) {
-    this.getAPI
+    this.isLoadingComment = true;
+    const getAddComment = this.getAPI
       .onAddComment({ body: comment.value.comment }, this.article.slug)
-      .subscribe((data: any) => {
-        this.articleComment.push(data.comment);
-      });
+      .subscribe(
+        (data: any) => {
+          this.articleComment.push(data.comment);
+        },
+        (err) => {
+          console.log(err);
+          Swal.fire({
+            icon: 'error',
+            iconColor: '#d33',
+            confirmButtonColor: '#0f0e15',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+          });
+        },
+        () => {
+          this.isLoadingComment = false;
+        }
+      );
+
+      this.subscriptions.add(getAddComment);
   }
 
   deleteComment(id: any) {
     const index = this.articleComment.findIndex((comment) => comment.id === id);
-    this.getAPI
-      .onDeleteComment(this.article.slug, id)
-      .subscribe((data: any) => {
+    const getDeleteComment = this.getAPI.onDeleteComment(this.article.slug, id).subscribe(
+      (data: any) => {
         this.articleComment.splice(index);
-      });
+      },
+      (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    );
+
+    this.subscriptions.add(getDeleteComment);
   }
   //#end region
   favoriteArticle() {
-    this.getAPI.onFavoriteArticle(this.article.slug).subscribe((data: any) => {
-      this.article = data.article;
-    });
+    const getFavoriteArticle = this.getAPI.onFavoriteArticle(this.article.slug).subscribe(
+      (data: any) => {
+        this.article = data.article;
+      },
+      (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    );
+
+    this.subscriptions.add(getFavoriteArticle);
   }
 
   unFavoriteArticle() {
-    this.getAPI
-      .onUnfavoriteArticle(this.article.slug)
-      .subscribe((data: any) => {
+    const getUnFavoriteArticle = this.getAPI.onUnfavoriteArticle(this.article.slug).subscribe(
+      (data: any) => {
         this.article = data.article;
-      });
+      },
+      (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    );
+
+    this.subscriptions.add(getUnFavoriteArticle);
   }
 
   followArticle() {
-    this.getAPI
-      .onFollowUser(this.article.author.username)
-      .subscribe((follow: { profile: Profile }) => {
+    const getFollowArticle = this.getAPI.onFollowUser(this.article.author.username).subscribe(
+      (follow: { profile: Profile }) => {
         this.article.author = follow.profile!;
-      });
+      },
+      (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    );
+
+    this.subscriptions.add(getFollowArticle);
   }
 
   unfollowArticle() {
-    this.getAPI
-      .onUnfollowUser(this.article.author.username)
-      .subscribe((follow: { profile: Profile }) => {
+    const getUnfollowArticle = this.getAPI.onUnfollowUser(this.article.author.username).subscribe(
+      (follow: { profile: Profile }) => {
         this.article.author = follow.profile!;
-      });
+      },
+      (err) => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#d33',
+          confirmButtonColor: '#0f0e15',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    );
+
+    this.subscriptions.add(getUnfollowArticle);
   }
 
   updateArticle() {
@@ -108,8 +200,38 @@ export class ArticleComponent implements OnInit {
   }
 
   deleteArticles() {
-    this.getAPI.onDeleteArticle(this.article.slug).subscribe((data: any) => {
-      this.router.navigate(['home']);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      iconColor: '#0f0e15',
+      showCancelButton: true,
+      confirmButtonColor: '#0f0e15',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const getDeleteArticle = this.getAPI.onDeleteArticle(this.article?.slug).subscribe(
+          (data: any) => {
+            this.router.navigate(['home']);
+          },
+          (err) => {
+            console.log(err);
+            Swal.fire({
+              icon: 'error',
+              iconColor: '#d33',
+              confirmButtonColor: '#0f0e15',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+            });
+          }
+        );
+        Swal.fire('Deleted!', 'Your article has been deleted.', 'success');
+        this.subscriptions.add(getDeleteArticle);
+      }
+
+
     });
+
   }
 }

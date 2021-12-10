@@ -1,8 +1,12 @@
-<!-- <div *ngIf="isLoading" class="text-center spinner">
-  <app-loading-spinner></app-loading-spinner>
-</div> -->
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="isLoading" class="text-center spinner">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+  </div>
+</div>
 
-<div class="bg-black1 mx-auto">
+<div class="bg-black1 mx-auto" *ngIf="!isLoading">
   <div class="container display-pc">
     <div class="post-meta">
       <time class="post-date">{{ article?.createdAt | date: "longDate" }}</time>
@@ -48,7 +52,7 @@
               class="text-gray"
               *ngIf="!article?.favorited"
               (click)="favoriteArticle()"
-              ><i class="fas fa-heart"></i> Favorite Article
+              ><i class="far fa-heart"></i> Favorite Article
               {{ article?.favoritesCount }}</span
             ><span
               class="text-gray"
@@ -95,7 +99,6 @@
       class="example-form mx-auto"
       (ngSubmit)="addComment(comment)"
     >
-      >
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label class="text-input-header">Write a comment</mat-label>
         <textarea
@@ -121,44 +124,50 @@
           </button>
         </div>
       </mat-form-field>
-      <div class="cmt-card mt-3" *ngFor="let comment of articleComment">
-        <div class="card-block">
-          <p>
-            {{ comment.body }}
-          </p>
-        </div>
-        <div class="card-footer">
-          <div class="float-start">
-            <a
-              routerLink="/profile/{{ article?.author?.username }}"
-              class="comment-author"
-            >
-              <img
-                src="{{ comment?.author?.image }}"
-                alt="img-author"
-                class="comment-author-img"
-              />
-            </a>
-            <a
-              routerLink="/profile/{{ comment?.author?.username }}"
-              class="comment-author"
-              style="color: rgba(255, 123, 123, 0.7); margin-left: 8px"
-              >{{ comment?.author?.username }}</a
-            >
-            <span class="date-posted">{{
-              comment.createdAt | date: "longDate"
-            }}</span>
+
+      <div *ngIf="isLoadingComment" class="text-center spinner">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+      <div *ngIf="!isLoadingComment">
+        <div class="cmt-card mt-3" *ngFor="let comment of articleComment">
+          <div class="card-block">
+            <p>
+              {{ comment.body }}
+            </p>
           </div>
-          <div
-            class="float-end"
-            *ngIf="currentUser.user.username === comment?.author?.username"
-          >
-            <span
-              (click)="deleteComment(comment?.id)"
-              class="pull-right icon-trash"
-              style="cursor: pointer"
-              ><i class="fas fa-trash"></i
-            ></span>
+          <div class="card-footer">
+            <div class="float-start">
+              <a
+                routerLink="/profile/{{ article?.author?.username }}"
+                class="comment-author"
+              >
+                <img
+                  src="{{ comment?.author?.image }}"
+                  alt="img-author"
+                  class="comment-author-img"
+                />
+              </a>
+              <a
+                routerLink="/profile/{{ comment?.author?.username }}"
+                class="comment-author"
+                style="color: rgba(255, 123, 123, 0.7); margin-left: 8px"
+                >{{ comment?.author?.username }}</a
+              >
+              <span class="date-posted">{{
+                comment.createdAt | date: "longDate"
+              }}</span>
+            </div>
+            <div
+              class="float-end"
+              *ngIf="currentUser.user.username === comment?.author?.username"
+            >
+              <span
+                (click)="deleteComment(comment?.id)"
+                class="pull-right icon-trash"
+                style="cursor: pointer"
+                ><i class="fas fa-trash"></i
+              ></span>
+            </div>
           </div>
         </div>
       </div>
