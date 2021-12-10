@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
+import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/loading-spinner.module';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -22,6 +23,7 @@ import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
     ReactiveFormsModule,
     MatTabsModule,
     MatPaginatorModule,
+    LoadingSpinnerModule,
     RouterModule.forChild([
       {
         path: ':username',

@@ -1,9 +1,12 @@
-<div class="profile">
+<div *ngIf="isLoadingFavorites" class="text-center spinner">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="profile" *ngIf="!isLoadingFavorites">
   <div class="container">
     <div class="row">
       <div class="article col col-4 col-d-6 col-t-12" *ngFor="let article of listFavorites; let i = index">
         <div class="article-card">
-          <a class="article-img">
+          <a class="article-img" [routerLink]="['../../../article', article.slug]">
             <img
               class="img"
               src="http://norlin.anvodstudio.com/content/images/2020/11/110.jpg"
@@ -36,9 +39,9 @@
               <div class="article-bottom-meta">
                 <a href="" class="article-bottom-user" [routerLink]="['../../../profile',article.author.username ]">{{article.author.username}}</a>
              <a class="btn  article-like" *ngIf="!favoritedCount[i].status"  (click)="onFavoriteArticle(article.slug, i)"  >
-                <i class="far fa-heart"></i>({{favoritedCount[i].Count}})</a>
+                <i class="far fa-heart"></i> {{ favoritedCount[i].Count}}</a>
               <a class="btn  article-like" *ngIf="favoritedCount[i].status" (click)="onUnfavoriteArticle(article.slug, i)"  >
-                <i class="fas fa-heart"></i>({{favoritedCount[i].Count}})</a> </div>
+                <i class="fas fa-heart"></i> {{ favoritedCount[i].Count}}</a> </div>
 
             </div>
           </div>
@@ -48,3 +51,4 @@
     </div>
   </div>
 </div>
+

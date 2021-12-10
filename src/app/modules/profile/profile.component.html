@@ -1,7 +1,13 @@
 <div class="all">
-  <div class="container">
+ <div *ngIf="isLoading" class="text-center spinner">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="all" *ngIf="!isLoading">
+
+  <div class="container" >
     <div class="row">
-      <div class="col col-8 col-d-10 col-m-12 push-m-0 push-d-1 push-2">
+
+      <div class="col col-8 col-d-10 col-m-12 push-m-0 push-d-1 push-2" >
         <div class="inf-profile">
           <figure class="inf-image-box">
             <img class="inf-image" src="{{ user?.profile.image }}" />
@@ -27,6 +33,7 @@
       </div>
     </div>
     <nav mat-tab-nav-bar animationDuration="2000ms">
+
       <a
         mat-tab-link
         *ngFor="let link of links"
@@ -51,6 +58,6 @@
 </mat-paginator>
 </div>
 </div>
-
+</div>
 
 

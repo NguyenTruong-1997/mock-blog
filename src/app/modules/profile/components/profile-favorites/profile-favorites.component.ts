@@ -18,19 +18,24 @@ export class ProfileFavoritesComponent implements OnInit {
   listFavorites: any;
   favorited!: boolean;
   favoritedCount:any = [];
+  isLoadingFavorites: boolean = false;
   private routeData: any;
   ngOnInit(): void {
-
-
-
+    this.isLoadingFavorites = true;
     this.profileService.currentArticles.pipe(switchMap(articles =>
       this.ConnectApiService.onGetMultiArticlesByFavorited(0,articles)
     ))
     .subscribe((data) => {
       this.listFavorites = data.articles;
+
       let arr: any= [];
       data.articles.forEach((article: any) => arr.push({Count: article.favoritesCount, status : article.favorited}));
       this.favoritedCount = arr;
+      this.isLoadingFavorites =false;
+    }, error => {
+      console.log(error);
+      this.isLoadingFavorites = false;
+
     });
   }
 

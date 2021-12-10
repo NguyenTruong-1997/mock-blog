@@ -123,3 +123,16 @@
 .article-like :hover {
   color: #ff7b7b;
 }
+.spinner {
+  margin: 80px auto 31vw;
+}
+@media (max-width: 768px) {
+  .col-t-12 {
+    width: 100%;
+  }
+}
+// @media (max-width: 992px) {
+//   .col-d-6 {
+//     width: 50%;
+//   }
+// }

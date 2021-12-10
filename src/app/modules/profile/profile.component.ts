@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   username?: string;
   param?: any;
   follow!: boolean ;
+  isLoading: boolean = false;
   //#end region
 
   //#region Constructor
@@ -36,6 +37,7 @@ export class ProfileComponent implements OnInit {
 
   //#region Methods
   public ngOnInit(): void {
+    this.isLoading = true;
     this.authService.currentUser.subscribe((user) => {
       this.userProfile = user?.user;
       this.username = user?.user.username;
@@ -49,7 +51,11 @@ export class ProfileComponent implements OnInit {
         this.user = user;
         console.log(user);
         this.follow = user.profile.following;
-
+        this.isLoading = false;
+      },
+      error => {
+        console.log(error);
+        this.isLoading = false;
 
       })
 

@@ -17,15 +17,15 @@ export class ProfileArticleComponent implements OnInit {
   Article!: boolean;
   favorited!: boolean;
   favoritedCount:any = [];
+  isLoadingArticle: boolean = false;
   constructor(
-    private route: ActivatedRoute,
     private profileService: ProfileService,
     private connectedService: ConnectApiService,
-    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.profileService.currentArticles.pipe(switchMap(articles =>
+    this.isLoadingArticle = true;
+    const subscription = this.profileService.currentArticles.pipe(switchMap(articles =>
       this.connectedService.onGetMultiArticlesByAuthor(0,articles)
     ))
     .subscribe((data : any) => {
@@ -34,11 +34,13 @@ export class ProfileArticleComponent implements OnInit {
       let arr: any= [];
       data.articles.forEach((article: any) => arr.push({Count: article.favoritesCount, status : article.favorited}));
       this.favoritedCount = arr;
-      console.log(this.favoritedCount);
+      this.isLoadingArticle = false;
+      subscription.unsubscribe();
+    }, error => {
+      console.log(error);
+      this.isLoadingArticle = false;
+
     })
-
-
-
   }
 
   onFavoriteArticle(slug: string, index: number){
