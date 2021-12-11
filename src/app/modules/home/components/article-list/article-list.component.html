@@ -13,7 +13,7 @@
       </span>
     </div>
 
-  <button class="m-2 p-2" style="cursor: pointer;" (click)="tonggleFavorite(article,i)" [ngClass]="{'btn-primary' : results[i].favorited}" >
+  <button appDebounceClick  [debounceTime]="300" class="m-2 p-2" style="cursor: pointer;" (debounceClick)="tonggleFavorite(article,i)" [ngClass]="{'btn-primary' : results[i].favorited}" >
     <i class="fas fa-heart mx-2" style="font-size: 20px;color: tomato;"></i>
     {{results[i].favoritesCount}}
   </button>

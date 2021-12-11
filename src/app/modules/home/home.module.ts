@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArticleListComponent } from './components/article-list/article-list.component';
 import { TagListComponent } from './components/tag-list/tag-list.component';
 import { ArticleFeedComponent } from './components/article-feed/article-feed.component';
+import { DebounceClickDirective } from '../../shared/directives/debounce.directive';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ArticleFeedComponent } from './components/article-feed/article-feed.com
     ArticleListComponent,
     TagListComponent,
     ArticleFeedComponent,
+    DebounceClickDirective
   ],
   imports: [
     CommonModule,

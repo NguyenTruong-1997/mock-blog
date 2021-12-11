@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import {  switchMap } from 'rxjs/operators';
 import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
 
 import { Article } from '../../../../shared/models/article.model';
@@ -53,13 +53,13 @@ export class ArticleListComponent implements OnInit {
       console.log("del");
     } else {
       this.connectApiService
-        .onFavoriteArticle(article.slug)
-        .subscribe((res) => 
-        {
-          this.results[i].favoritesCount = res.article.favoritesCount;
-          this.results[i].favorited = res.article.favorited;
-        });
-      console.log("post");
+      .onFavoriteArticle(article.slug)
+      .subscribe((res) => 
+      {
+        this.results[i].favoritesCount = res.article.favoritesCount;
+        this.results[i].favorited = res.article.favorited;
+      });
+    console.log("post");
     }
   }
 
