@@ -7,13 +7,9 @@
 </div>
 
 <div class="bg-black1 mx-auto" *ngIf="!isLoading">
-  <div class="container display-pc">
-    <div class="post-meta">
-      <time class="post-date">{{ article?.createdAt | date: "longDate" }}</time>
-    </div>
-    <h1 class="post-title">{{ article?.title }}</h1>
-    <div class="post-bottom d-flex">
-      <div class="post-author">
+  <div class="container mb-2 border-content" style="width: 700px; height: auto">
+    <div class="float-start">
+      <div class="post-author d-flex">
         <a href="#">
           <img
             class="post-author-img"
@@ -21,13 +17,23 @@
             alt="img"
           />
         </a>
+        <div class="info-article">
+          <a
+            routerLink="/profile/{{ article?.author?.username }}"
+            class="post-author-link h3"
+            >{{ article?.author?.username }}
+          </a>
+          <div class="post-meta">
+            <time class="post-date">{{
+              article?.createdAt | date: "longDate"
+            }}</time>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="float-end">
       <div class="post-bottom">
-        <a
-          routerLink="/profile/{{ article?.author?.username }}"
-          class="post-author-link"
-          >{{ article?.author?.username }}
-        </a>
         <span
           class="post-tag"
           *ngIf="currentUser?.user?.username !== article?.author?.username"
@@ -77,10 +83,10 @@
         </span>
       </div>
     </div>
-  </div>
-  <div class="container mt-4">
+    <div class="clearfix"></div>
     <div class="post aminate">
       <div class="post-content mx-auto" style="width: 100%; height: auto">
+        <h1 class="post-title">{{ article?.title }}</h1>
         <p>
           {{ article?.body }}
         </p>
@@ -99,42 +105,39 @@
       class="example-form mx-auto"
       (ngSubmit)="addComment(comment)"
     >
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label class="text-input-header">Write a comment</mat-label>
-        <textarea
-          class="text-input"
-          matInput
-          ngModel
-          name="comment"
-          style="color: #fff"
-          #input
-        ></textarea>
-        <div class="toolbar mt-2">
-          <img
-            src="{{ currentUser.user.image }}"
-            alt="img-author"
-            class="comment-author-img"
-          />
-          <button
-            (click)="input.value = ''"
-            type="submit"
-            class="float-end btn-none"
-          >
-            <i class="icon fas fa-paper-plane"></i>
-          </button>
-        </div>
-      </mat-form-field>
+      <div [hidden]="!isLogin">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label class="text-input-header">Write a comment</mat-label>
+          <textarea
+            class="text-input"
+            matInput
+            ngModel
+            name="comment"
+            style="color: #fff"
+            #input
+          ></textarea>
+          <div class="toolbar mt-2">
+            <img
+              src="{{ currentUser?.user?.image }}"
+              alt="img-author"
+              class="comment-author-img"
+            />
+            <button
+              (click)="input.value = ''"
+              type="submit"
+              class="float-end btn-none"
+            >
+              <i class="icon fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </mat-form-field>
+      </div>
 
       <div *ngIf="isLoadingComment" class="text-center spinner">
         <app-loading-spinner></app-loading-spinner>
       </div>
       <div *ngIf="!isLoadingComment">
         <div class="cmt-card mt-3" *ngFor="let comment of articleComment">
-          <div class="card-block">
-            <p>
-              {{ comment.body }}
-            </p>
-          </div>
           <div class="card-footer">
             <div class="float-start">
               <a
@@ -159,7 +162,7 @@
             </div>
             <div
               class="float-end"
-              *ngIf="currentUser.user.username === comment?.author?.username"
+              *ngIf="currentUser?.user?.username === comment?.author?.username"
             >
               <span
                 (click)="deleteComment(comment?.id)"
@@ -169,8 +172,18 @@
               ></span>
             </div>
           </div>
+          <div class="card-block">
+            <p>
+              {{ comment.body }}
+            </p>
+          </div>
         </div>
       </div>
     </form>
+    <mat-paginator class="mt-5 bg-paginator" [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+    </mat-paginator>
   </div>
 </div>

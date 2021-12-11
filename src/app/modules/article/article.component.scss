@@ -5,6 +5,13 @@
   font-weight: 500;
 }
 
+.border-content {
+  border: 2px solid #eee;
+  border-radius: 8px;
+  padding: 1.25rem;
+  background-color: #1c1b25;
+}
+
 p {
   font-size: 18px;
   line-height: 1.7;
@@ -36,8 +43,8 @@ span {
 .post-author-img {
   position: relative;
   display: inline-block;
-  width: 36px;
-  height: 36px;
+  width: 56px;
+  height: 56px;
   padding: 3px;
   margin-right: 8px;
   border: 2px solid #ff7b7b;
@@ -91,11 +98,12 @@ a {
 }
 
 .cmt-card {
-  border: 1px solid #eee;
+  border: 3px solid #eee;
+  border-radius: 8px;
+  background-color: #0f0e15;
 }
 
 .card-block {
-  background-color: #0f0e15;
   padding: 1.25rem;
   color: #eee;
 }
@@ -105,8 +113,11 @@ a {
   box-shadow: none !important;
   font-size: 0.8rem;
   font-weight: 300;
-  background-color: #0f0e15;
-  border-top: 2px solid #eee;
+  border-bottom: 2px solid #eee;
+}
+
+.icon-trash{
+  font-size: 18px;
 }
 
 .comment-author-img {
@@ -119,6 +130,7 @@ a {
 
 .comment-author {
   vertical-align: middle;
+  font-size: 18px;
 }
 
 .date-posted {
@@ -126,6 +138,7 @@ a {
   vertical-align: middle;
   margin-left: 5px;
   color: #bbb;
+  font-size: 18px;
 }
 
 .text-gray {
@@ -142,7 +155,7 @@ a {
 }
 
 .btn-none {
-  background-color: #27272d;
+  background-color: #0f0e15;
   border: none;
 }
 
@@ -155,6 +168,10 @@ a {
   padding: 80px auto 31vw;
 }
 
+.bg-paginator{
+  background-color: #0f0e15;
+
+}
 //PC-laptop
 @media (min-width: 1024px) {
   .display-pc {

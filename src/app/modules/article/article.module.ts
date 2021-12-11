@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticleComponent } from './article.component';
 import { MatInputModule } from '@angular/material/input';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/loading-spinner.module';
 
@@ -14,6 +15,7 @@ import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/
     MatInputModule,
     FormsModule,
     LoadingSpinnerModule,
+    MatPaginatorModule
   ],
 })
 export class ArticleModule {}
