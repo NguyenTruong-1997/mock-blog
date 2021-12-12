@@ -19,18 +19,18 @@ export class ProfileFavoritesComponent implements OnInit {
   favorited!: boolean;
   favoritedCount:any = [];
   isLoadingFavorites: boolean = false;
-  private routeData: any;
+  length!: number;
+  offset: number = 0;
+  limit: number=5
+
   ngOnInit(): void {
     this.isLoadingFavorites = true;
     this.profileService.currentArticles.pipe(switchMap(articles =>
-      this.ConnectApiService.onGetMultiArticlesByFavorited(0,articles)
+      this.ConnectApiService.onGetMultiArticlesByFavorited(this.limit ,this.offset,articles)
     ))
     .subscribe((data) => {
       this.listFavorites = data.articles;
-
-      let arr: any= [];
-      data.articles.forEach((article: any) => arr.push({Count: article.favoritesCount, status : article.favorited}));
-      this.favoritedCount = arr;
+      this.length = data.articlesCount;
       this.isLoadingFavorites =false;
     }, error => {
       console.log(error);
@@ -39,21 +39,29 @@ export class ProfileFavoritesComponent implements OnInit {
     });
   }
 
+  handlePage(e:any){
+    this.offset = e.pageIndex * e.pageSize;
+    this.limit = e.pageSize;
+    this.profileService.currentArticles.pipe(switchMap(articles =>
+      this.ConnectApiService.onGetMultiArticlesByFavorited(this.limit ,this.offset,articles)
+    ))
+    .subscribe((data : any) => {
+      this.listFavorites = data.articles;
+     })
+     window.scrollTo(0, 500);
+  }
+
   onFavoriteArticle(slug: string, index: number){
     return this.ConnectApiService.onFavoriteArticle(slug).subscribe((favorite) => {
-      this.favorited = favorite.article.favorited;
-      this.favoritedCount[index].Count = favorite?.article.favoritesCount;
-      this.favoritedCount[index].status = favorite.article.favorited;
-      console.log('favorite');
+      this.listFavorites[index].favorited = favorite.article.favorited;
+      this.listFavorites[index].favoritesCount = favorite.article.favoritesCount;
     })
   }
 
   onUnfavoriteArticle(slug: string, index: number){
     return this.ConnectApiService.onUnfavoriteArticle(slug).subscribe((favorite) => {
-       this.favorited = favorite.article.favorited;
-       this.favoritedCount[index].Count = favorite?.article.favoritesCount;
-       this.favoritedCount[index].status = favorite.article.favorited;
-       console.log(favorite);
+      this.listFavorites[index].favorited = favorite.article.favorited;
+      this.listFavorites[index].favoritesCount = favorite.article.favoritesCount;
      })
 }
 }

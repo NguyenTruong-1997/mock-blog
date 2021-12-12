@@ -42,16 +42,16 @@ export class ConnectApiService {
     );
   }
 
-  public onGetMultiArticlesByAuthor(offset: number, author: string) {
+  public onGetMultiArticlesByAuthor(limit: number, offset: number, author: string) {
     return this.http.get<MultiArticle>(
-      this.API_URL + `/articles/?limit=10&offset=${offset}&author=${author}`
+      this.API_URL + `/articles/?limit=${limit}&offset=${offset}&author=${author}`
     );
   }
 
-  public onGetMultiArticlesByFavorited(offset: number, favorited: string) {
+  public onGetMultiArticlesByFavorited(limit: number,offset: number, favorited: string) {
     return this.http.get<MultiArticle>(
       this.API_URL +
-        `/articles/?limit=10&offset=${offset}&favorited=${favorited}`
+        `/articles/?limit=${limit}&offset=${offset}&favorited=${favorited}`
     );
   }
 

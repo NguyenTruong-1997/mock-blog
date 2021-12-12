@@ -21,11 +21,11 @@
               ><i class="fas fa-cog"></i>Edit Profile Settings</a>
           </span>
           <span class="" *ngIf=" user?.profile.username !== username">
-            <a class="btn edit btn-edit"  *ngIf="!follow" (click)="onFollowUser()"
+            <a appDebounceClick [debounceTime]="300" class="btn edit btn-edit"  *ngIf="!follow" (debounceClick)="onFollowUser()"
               ><i class="fas fa-plus"></i> Follow {{ user?.profile.username }}</a
             >
-            <a class="btn edit btn-edit hihi" style="background-color: #ff7b7b; opacity: 0.7;"
-              *ngIf="follow" (click)="onUnfollowUser()"
+            <a appDebounceClick [debounceTime]="300" class="btn edit btn-edit hihi" style="background-color: #ff7b7b; opacity: 0.7;"
+              *ngIf="follow" (debounceClick)="onUnfollowUser()"
               ><i class="fas fa-plus"></i> Unfollow {{ user?.profile.username }}</a
             >
           </span>
@@ -33,7 +33,6 @@
       </div>
     </div>
     <nav mat-tab-nav-bar animationDuration="2000ms">
-
       <a
         mat-tab-link
         *ngFor="let link of links"
@@ -50,13 +49,7 @@
 
   </div>
   <router-outlet></router-outlet>
-  <div class="container" >
-   <mat-paginator [length]="100"
-              [pageSize]="10"
 
-              aria-label="Select page">
-</mat-paginator>
-</div>
 </div>
 </div>
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { debounceTime, map, switchMap } from 'rxjs/operators';
 import { Article, FormCreateArticle, SingleArticle } from 'src/app/shared/models/article.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
@@ -18,6 +18,9 @@ export class ProfileArticleComponent implements OnInit {
   favorited!: boolean;
   favoritedCount:any = [];
   isLoadingArticle: boolean = false;
+  length!: number;
+  offset: number = 0;
+  limit: number=5
   constructor(
     private profileService: ProfileService,
     private connectedService: ConnectApiService,
@@ -25,15 +28,15 @@ export class ProfileArticleComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoadingArticle = true;
+
     const subscription = this.profileService.currentArticles.pipe(switchMap(articles =>
-      this.connectedService.onGetMultiArticlesByAuthor(0,articles)
+      this.connectedService.onGetMultiArticlesByAuthor(this.limit ,this.offset,articles)
     ))
     .subscribe((data : any) => {
       this.listArticle = data.articles;
-      console.log(data.articles);
-      let arr: any= [];
-      data.articles.forEach((article: any) => arr.push({Count: article.favoritesCount, status : article.favorited}));
-      this.favoritedCount = arr;
+      console.log(data);
+
+      this.length = data.articlesCount;
       this.isLoadingArticle = false;
       subscription.unsubscribe();
     }, error => {
@@ -43,21 +46,30 @@ export class ProfileArticleComponent implements OnInit {
     })
   }
 
+  handlePage(e:any){
+    this.offset = e.pageIndex * e.pageSize;
+    this.limit = e.pageSize;
+    this.profileService.currentArticles.pipe(switchMap(articles =>
+      this.connectedService.onGetMultiArticlesByAuthor(this.limit ,this.offset,articles)
+    ))
+    .subscribe((data : any) => {
+      this.listArticle = data.articles;
+     })
+  }
+
   onFavoriteArticle(slug: string, index: number){
-    return this.connectedService.onFavoriteArticle(slug).subscribe((favorite) => {
-      this.favorited = favorite.article.favorited;
-      this.favoritedCount[index].Count = favorite?.article.favoritesCount;
-      this.favoritedCount[index].status = favorite.article.favorited;
-      console.log('favorite');
+    return this.connectedService.onFavoriteArticle(slug)
+    .subscribe((favorite) => {
+      this.listArticle[index].favorited = favorite.article.favorited;
+      this.listArticle[index].favoritesCount = favorite.article.favoritesCount;
     })
   }
 
   onUnfavoriteArticle(slug: string, index: number){
-    return this.connectedService.onUnfavoriteArticle(slug).subscribe((favorite) => {
-       this.favorited = favorite.article.favorited;
-       this.favoritedCount[index].Count = favorite?.article.favoritesCount;
-       this.favoritedCount[index].status = favorite.article.favorited;
-       console.log(favorite);
+    return this.connectedService.onUnfavoriteArticle(slug) .pipe(debounceTime(300))
+    .subscribe((favorite) => {
+      this.listArticle[index].favorited = favorite.article.favorited;
+      this.listArticle[index].favoritesCount = favorite.article.favoritesCount;
      })
 
    }

@@ -75,3 +75,10 @@
 .spinner {
   margin: 100px auto 50vw;
 }
+.mat-paginator {
+  font-size: 30px !important;
+}
+.mat-paginator,
+.mat-paginator-page-size .mat-select-trigger {
+  font-size: 30px !important;
+}

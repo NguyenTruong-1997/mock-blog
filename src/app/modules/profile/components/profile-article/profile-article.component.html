@@ -42,10 +42,10 @@
               <div class="article-bottom-meta">
                 <a  class="article-bottom-user">{{article.author.username}}</a>
               </div>
-              <a class="btn  article-like" *ngIf="!favoritedCount[i].status"  (click)="onFavoriteArticle(article.slug, i)"  >
-                <i class="far fa-heart"></i> {{ favoritedCount[i].Count}}</a>
-              <a class="btn  article-like" *ngIf="favoritedCount[i].status" (click)="onUnfavoriteArticle(article.slug, i)"  >
-                <i class="fas fa-heart"></i> {{ favoritedCount[i].Count}}</a>
+              <a appDebounceClick [debounceTime]="300" class="btn  article-like" *ngIf="!listArticle[i].favorited"  (debounceClick)="onFavoriteArticle(article.slug, i)"  >
+                <i class="far fa-heart"></i> {{ listArticle[i].favoritesCount}}</a>
+              <a appDebounceClick [debounceTime]="300" class="btn  article-like" *ngIf="listArticle[i].favorited" (debounceClick)="onUnfavoriteArticle(article.slug, i)"  >
+                <i class="fas fa-heart"></i> {{  listArticle[i].favoritesCount}}</a>
             </div>
           </div>
         </div>
@@ -53,5 +53,8 @@
     </div>
   </div>
 </div>
-
+<div class="container" >
+  <mat-paginator  [length]="length" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page" (page)= "handlePage($event)">
+  </mat-paginator>
+</div>
 
