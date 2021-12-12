@@ -1,6 +1,12 @@
 .setting {
   background-color: #0f0e15;
+  @media (min-width:700px) and (max-width:768px) {
+    height: 83vh;
+  }
   .setting-form {
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 16px;
     width: 100%;
     max-width: 550px;
     margin: 0 auto 1vw;
@@ -29,12 +35,33 @@
       border-radius: 50%;
       padding: 6px;
       border: 3px solid #ff7b7b;
-    }
-    .hightlight {
-      border: 1px solid #fff;
+      @media screen and (max-width: 768px) {
+        width: 70px;
+        height: 70px;
+      }
     }
   }
   .spinner {
-    margin: 80px auto 31vw;
+    margin: auto;
+    padding-top: 80px;
+    width: 100%;
+    height: 86vh;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0f0e15;
+    z-index: 1;
+    @media screen and (max-width: 768px) {
+      height: 73vh;
+      top: 43%;
+    }
+    @media screen and (max-width: 700px) {
+      height: 101vh;
+      top: 59%;
+    }
   }
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+  font-size: 17px;
 }

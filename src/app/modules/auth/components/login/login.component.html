@@ -2,16 +2,22 @@
   <div class="container">
     <div class="row">
       <div class="col col-12">
-        
         <div *ngIf="isLoading" class="text-center spinner">
           <app-loading-spinner></app-loading-spinner>
         </div>
 
-        <form novalidate #loginForm="ngForm" class="login-form" (submit)="loginForm.form.valid && onLogin(loginForm)" *ngIf="!isLoading">
+        <form
+          novalidate
+          autocomplete="off"
+          #loginForm="ngForm"
+          class="login-form"
+          (submit)="loginForm.form.valid && onLogin(loginForm)"
+          *ngIf="!isLoading"
+        >
           <div class="login__title text-center">
-            <img src="https://img.icons8.com/ios/100/000000/circled-w.png"/>
+            <img src="https://img.icons8.com/ios/100/000000/circled-w.png" />
           </div>
-          <p class="login__desc">
+          <p class="login__desc text-center">
             Unlock full access and see the entire library of members-only
             content &amp; updates.
           </p>
@@ -27,11 +33,10 @@
               #name="ngModel"
               required
               email
+              #inpFocus
             />
             <mat-error
-              *ngIf="
-                name.hasError('email') && !name.hasError('required')
-              "
+              *ngIf="name.hasError('email') && !name.hasError('required')"
             >
               Please enter a valid email address
             </mat-error>

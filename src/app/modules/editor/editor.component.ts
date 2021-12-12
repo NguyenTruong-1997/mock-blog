@@ -1,9 +1,9 @@
 import { ConnectApiService } from './../../shared/services/connect-api.service';
-import { NgForm } from '@angular/forms';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgForm, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { switchMap, filter, tap } from 'rxjs/operators';
 import { SingleArticle } from 'src/app/shared/models/article.model';
 import { CanComponentDeactivate } from 'src/app/shared/services/candeactive.service';
 import Swal from 'sweetalert2';
@@ -13,19 +13,19 @@ import Swal from 'sweetalert2';
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
 })
-export class EditorComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+export class EditorComponent implements OnInit, AfterViewInit, OnDestroy, CanComponentDeactivate {
   //#region Properties
-  @ViewChild('submitForm') submitForm!: NgForm;
+  @ViewChild('inpFocus') inpFocus!: ElementRef;
+  
+  public submitForm!: FormGroup;
+
+  public submitted = false;
+  
   public subscriptions = new Subscription();
 
   public isEdit = false;
 
   public isLoading = false;
-
-  public articleTitle = '';
-  public articleDescription = '';
-  public articleBody = '';
-  public articleTagList = '';
 
   public slug: string = '';
 
@@ -35,7 +35,8 @@ export class EditorComponent implements OnInit, OnDestroy, CanComponentDeactivat
   public constructor(
     private route: ActivatedRoute,
     private api: ConnectApiService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
   //#end region
@@ -44,6 +45,34 @@ export class EditorComponent implements OnInit, OnDestroy, CanComponentDeactivat
   public ngOnInit(): void {
     const paramsSub = this.route.params
       .pipe(
+        tap(() => {
+          this.submitForm = this.formBuilder.group({
+            title: [
+              '',
+              Validators.compose([
+                Validators.required
+              ])
+            ],
+            description: [
+              '',
+              Validators.compose([
+              Validators.required
+              ])
+            ],
+            tagList: [
+              '',
+              Validators.compose([
+                Validators.required
+              ])
+            ],
+            body: [
+              '',
+              Validators.compose([
+                Validators.required
+              ])
+            ],
+          });
+        }),
         filter((params) => params.slug != null),
         switchMap((params: Params) => {
           this.isEdit = params.slug != null;
@@ -53,66 +82,137 @@ export class EditorComponent implements OnInit, OnDestroy, CanComponentDeactivat
       )
       .subscribe(
         (res: SingleArticle) => {
-          this.articleTitle = res.article.title;
-          this.articleDescription = res.article.description;
-          this.articleBody = res.article.body;
-          this.articleTagList = res.article.tagList.join(',');
-          this.slug = res.article.slug;
           this.isLoading = false;
+          if(Object.keys(res.article).length > 0) {
+            this.submitForm = this.formBuilder.group({
+              title: [
+                res.article.title,
+                Validators.compose([
+                  Validators.required
+                ])
+              ],
+              description: [
+                res.article.description,
+                Validators.compose([
+                Validators.required
+                ])
+              ],
+              tagList: [
+                res.article.tagList.join(','),
+                Validators.compose([
+                  Validators.required
+                ])
+              ],
+              body: [
+                res.article.body,
+                Validators.compose([
+                  Validators.required
+                ])
+              ],
+            });
+            this.slug = res.article.slug;
+          } else {
+            this.router.navigate(['page-not-found'])
+          }
         },
         (err) => {
           console.log(err);
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!'
+          })
         }
       );
 
     this.subscriptions.add(paramsSub);
   }
 
-  public canDeativate(): boolean {
-    if(this.submitForm.form.dirty) {
-      Swal.fire({
+  public get handle(): { [key: string]: AbstractControl } {
+    return this.submitForm.controls;
+  }
+
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.inpFocus.nativeElement.focus();
+    })
+  }
+
+  public canDeativate(): boolean | Promise<boolean> {
+    if(this.submitForm.dirty && !this.submitted) {
+      return Swal.fire({
+        icon: 'question',
+        title: 'Wait!?',
+        text: 'Are you sure to leave!?',
         iconColor: '#0f0e15',
         confirmButtonColor: '#0f0e15',
         showCancelButton: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
-            icon: 'question',
-            title: 'Wait!?',
-            text: 'Are you sure',
-          })
+          return true;
+        } else {
+          return false
         }
       })
     }
     return true;
   }
 
-  public onSubmit(form: NgForm) {
-    this.isLoading = true;
-
+  public onSubmit(form: FormGroup) {
+    this.submitted = true;
     if (this.isEdit) {
-      const editArticleSub = this.api
-        .onUpdateArticle(
-          {
+      console.log(form.value);
+      Swal.fire({
+        icon: 'question',
+        iconColor: '#0f0e15',
+        confirmButtonColor: '#0f0e15',
+        showCancelButton: true,
+        cancelButtonColor: '#0f0e15',
+        title: 'Are you sure?!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true;
+          const editArticleSub = this.api.onUpdateArticle({
             ...form.value,
             tagList: form.value.tagList.split(','),
           },
-          this.slug
-        )
-        .subscribe(
-          (res) => {
-            this.isLoading = false;
-            this.router.navigate([`../article/`, res.article.slug]);
-          },
-          (err) => {
-            alert('Title ' + err.error.errors.title);
-            this.isLoading = false;
-          }
-        );
-      this.subscriptions.add(editArticleSub);
+          this.slug)
+            .subscribe((res) => {
+              console.log(res);
+              
+              this.isLoading = false;
+              Swal.fire({
+                icon: 'success',
+                iconColor: '#0f0e15',
+                confirmButtonColor: '#0f0e15',
+                title: 'Conglaturation!',
+                text: 'Succesful update article!',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              this.router.navigate([`../article/`, res.article.slug]);
+            }, (err) => {
+              console.log(err);
+              this.isLoading = false;
+              Swal.fire({
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#0f0e15',
+                title: 'Oops...',
+                text: 'Title ' + err.error.errors.title,
+                showConfirmButton: false,
+                timer: 1500
+              })
+            })
+  
+          this.subscriptions.add(editArticleSub);
+        }
+      });
       return;
     }
 
+    this.isLoading = true;
     const createArticleSub = this.api
       .onCreateArticle({
         ...form.value,
@@ -121,11 +221,29 @@ export class EditorComponent implements OnInit, OnDestroy, CanComponentDeactivat
       .subscribe(
         (res) => {
           this.isLoading = false;
+          Swal.fire({
+            icon: 'success',
+            iconColor: '#0f0e15',
+            confirmButtonColor: '#0f0e15',
+            title: 'Conglaturation!',
+            text: 'Succesful add new article!',
+            showConfirmButton: false,
+            timer: 1500
+          });
           this.router.navigate([`../article/`, res.article.slug]);
         },
         (err) => {
-          alert('Title ' + err.error.errors.title);
           this.isLoading = false;
+          console.log(err);
+          Swal.fire({
+            icon: 'error',
+            iconColor: '#d33',
+            confirmButtonColor: '#0f0e15',
+            title: 'Oops...',
+            text: 'Title ' + err.error.errors.title,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       );
 

@@ -1,6 +1,11 @@
 .header {
   background-color: #0f0e15;
-  padding: 20px 0;
+  height: 15vh;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
   .container {
     .navbar-brand {
       font-size: 30px;
@@ -21,6 +26,11 @@
         img {
           background-color: rgba(255,123,123,.7);
         }
+      }
+    }
+    .nav-phone {
+      @media screen and (min-width: 769px) {
+        display: none!important;
       }
     }
     .nav-pills {

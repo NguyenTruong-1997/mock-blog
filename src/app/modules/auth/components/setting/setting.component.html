@@ -2,48 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <div *ngIf="isLoading" class="text-center spinner">
+        <div *ngIf="isLoading" class="text-center spinner position-absolute">
           <app-loading-spinner></app-loading-spinner>
         </div>
 
         <form
-          *ngIf="!isLoading"
+          autocomplete="off"
           class="setting-form"
           novalidate
-          #settingForm="ngForm"
-          (submit)="settingForm.form.valid && onSetting(settingForm)"
+          [formGroup]="settingForm"
+          (submit)="settingForm.valid && onSetting(settingForm)"
         >
-        <div class="setting__title text-center">
-          <img src="https://img.icons8.com/ios/100/000000/circled-w.png"/>
-        </div>
-
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Image URL</mat-label>
-            <input
-              type="url"
-              matInput
-              placeholder="Image URL"
-              [(ngModel)]="imagePath"
-              name="image"
-              #image="ngModel"
-              required
-              pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
-            />
-            <mat-error
-              *ngIf="image.hasError('pattern') && !image.hasError('required')"
-            >
-              Please enter a valid URL
-            </mat-error>
-            <mat-error *ngIf="image.hasError('required')">
-              Image profile is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-
-          <div
-            class="image-preview mb-3"
-            *ngIf="!image.hasError('pattern') && image.value"
-          >
-            <img [src]="image.value" class="d-block mx-auto" />
+          <div class="setting__title text-center">
+            <img src="https://img.icons8.com/ios/100/000000/circled-w.png" />
           </div>
 
           <mat-form-field appearance="outline" class="w-100">
@@ -52,25 +23,12 @@
               type="text"
               matInput
               placeholder="Username"
-              [(ngModel)]="userName"
-              name="username"
-              #username="ngModel"
-              required
+              formControlName="username"
+              #inpFocus
             />
-            <mat-error *ngIf="username.hasError('required')">
+            <mat-error *ngIf="handle.username.errors?.required">
               Username is <strong>required</strong>
             </mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Short bio</mat-label>
-            <textarea
-              matInput
-              placeholder="Short bio about you"
-              [(ngModel)]="shortBio"
-              name="bio"
-              #bio="ngModel"
-            ></textarea>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-100">
@@ -79,31 +37,68 @@
               type="email"
               matInput
               placeholder="Email"
-              [(ngModel)]="currentEmail"
-              name="email"
-              #name="ngModel"
-              required
-              email
+              formControlName="email"
             />
             <mat-error
-              *ngIf="name.hasError('email') && !name.hasError('required')"
+              *ngIf="handle.username.errors?.email && !handle.username.errors?.required"
             >
               Please enter a valid email address
             </mat-error>
-            <mat-error *ngIf="name.hasError('required')">
+            <mat-error *ngIf="handle.username.errors?.required">
               Email is <strong>required</strong>
             </mat-error>
           </mat-form-field>
 
-          <div class="mb-3 text-end">
-            <button mat-raised-button color="primary" type="submit" [disabled]="settingForm.form.invalid">
-              Update settings
-            </button>
+          <div
+            class="
+              image-preview
+              d-flex
+              justify-content-between
+              align-items-center
+            "
+          >
+            <mat-form-field appearance="outline" class="w-75">
+              <mat-label>Image URL</mat-label>
+              <input
+                type="url"
+                matInput
+                placeholder="Image URL"
+                formControlName="image"
+                #image
+              />
+              <mat-error
+                *ngIf="handle.image.errors?.pattern && !handle.image.errors?.required"
+              >
+                Please enter a valid URL
+              </mat-error>
+              <mat-error *ngIf="handle.image.errors?.required">
+                Image profile is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div class="image-preview mb-3">
+              <img
+                [src]="
+                  settingForm.value.image && !handle.image.errors?.pattern
+                    ? settingForm.value.image
+                    : 'https://api.realworld.io/images/smiley-cyrus.jpeg'
+                "
+                class="d-block mx-auto"
+              />
+            </div>
           </div>
 
-          <hr class="hightlight" />
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Short bio</mat-label>
+            <textarea
+              matInput
+              placeholder="Short bio about you"
+              formControlName="bio"
+              rows="5"
+            ></textarea>
+          </mat-form-field>
 
-          <div class="mb-3">
+          <div class="mb-3 d-flex justify-content-between">
             <button
               mat-raised-button
               color="primary"
@@ -111,6 +106,15 @@
               (click)="onLogout()"
             >
               Logout
+            </button>
+
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="settingForm.invalid"
+            >
+              Update settings
             </button>
           </div>
         </form>

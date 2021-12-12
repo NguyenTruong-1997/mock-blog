@@ -9,12 +9,15 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './helpers/auth.interceptor';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PageNotFoundComponent,
+    // AutoFocusDirective
   ],
   imports: [
     BrowserModule,
