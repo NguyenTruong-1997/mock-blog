@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public currenUser!: User | undefined;
 
+  public username?: string
+
   //#end region
 
   //#region Constructor
@@ -32,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const currentUserSub = this.authService.currentUser.subscribe((user: GetUser | null) => {
       this.isLogin = !user ? false : true;
+      this.username = user?.user.username
       if(user?.user.image !== user?.user.bio) {
         this.currenUser = user?.user;
       }

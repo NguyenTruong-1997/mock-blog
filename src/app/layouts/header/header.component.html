@@ -26,7 +26,7 @@
               <a class="nav-link text-center" [routerLink]="['./editor']" routerLinkActive="underlight">New Article</a>
             </li>
             <li class="nav-item" routerLinkActive="active" *ngIf="isLogin">
-              <a class="nav-link text-center" [routerLink]="['./profile']" routerLinkActive="underlight">{{ currenUser?.username ? currenUser?.username : 'User' }}
+              <a class="nav-link text-center" [routerLink]="['./profile', username]" routerLinkActive="underlight">{{ currenUser?.username ? currenUser?.username : 'User' }}
                 <img [src]="currenUser?.image ? currenUser?.image : 'https://api.realworld.io/images/smiley-cyrus.jpeg'" >
               </a>
             </li>
@@ -48,7 +48,7 @@
               <a class="nav-link text-center" [routerLink]="['./editor']" routerLinkActive="underlight">New Article</a>
             </li>
             <li class="nav-item" routerLinkActive="active" *ngIf="isLogin" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar">
-              <a class="nav-link text-center" [routerLink]="['./profile']" routerLinkActive="underlight">{{ currenUser?.username ? currenUser?.username : 'User' }}
+              <a class="nav-link text-center" [routerLink]="['./profile', username]" routerLinkActive="underlight">{{ currenUser?.username ? currenUser?.username : 'User' }}
                 <img [src]="currenUser?.image ? currenUser?.image : 'https://api.realworld.io/images/smiley-cyrus.jpeg'" >
               </a>
             </li>

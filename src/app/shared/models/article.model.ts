@@ -3,7 +3,7 @@ export interface SingleArticle {
 }
 
 export interface MultiArticle {
-  article: Article[];
+  articles: Article[];
   articlesCount: number;
 }
 

@@ -1,1 +1,56 @@
-<router-outlet></router-outlet>
+<div class="all">
+ <div *ngIf="isLoading" class="text-center spinner">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div class="all" *ngIf="!isLoading">
+
+  <div class="container" >
+    <div class="row">
+
+      <div class="col col-8 col-d-10 col-m-12 push-m-0 push-d-1 push-2" >
+        <div class="inf-profile">
+          <figure class="inf-image-box">
+            <img class="inf-image" src="{{ user?.profile.image }}" />
+          </figure>
+          <h1 class="inf-title">{{ user?.profile.username }}</h1>
+          <h2 class="bio-profile">
+            {{ user?.profile.bio }}
+          </h2>
+          <span class="" *ngIf=" user?.profile.username == username" >
+             <a class="btn edit btn-edit" routerLink="../../auth/setting"
+              ><i class="fas fa-cog"></i>Edit Profile Settings</a>
+          </span>
+          <span class="" *ngIf=" user?.profile.username !== username">
+            <a appDebounceClick [debounceTime]="300" class="btn edit btn-edit"  *ngIf="!follow" (debounceClick)="onFollowUser()"
+              ><i class="fas fa-plus"></i> Follow {{ user?.profile.username }}</a
+            >
+            <a appDebounceClick [debounceTime]="300" class="btn edit btn-edit hihi" style="background-color: #ff7b7b; opacity: 0.7;"
+              *ngIf="follow" (debounceClick)="onUnfollowUser()"
+              ><i class="fas fa-plus"></i> Unfollow {{ user?.profile.username }}</a
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+    <nav mat-tab-nav-bar animationDuration="2000ms">
+      <a
+        mat-tab-link
+        *ngFor="let link of links"
+        [routerLink]="[link.url]"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [active]="rla.isActive"
+        [routerLinkActive]="['class1']"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
+
+  </div>
+  <router-outlet></router-outlet>
+
+</div>
+</div>
+
+
