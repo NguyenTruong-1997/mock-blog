@@ -1,3 +1,7 @@
+.post.aminate {
+  background-color: #0f0e15;
+}
+
 .post-time,
 .post-date {
   font-size: 13px;
@@ -7,9 +11,9 @@
 
 .border-content {
   border: 2px solid #eee;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 1.25rem;
-  background-color: #1c1b25;
+  background-color: #0f0e15;
 }
 
 p {
@@ -82,7 +86,6 @@ a {
 
 .post {
   position: relative;
-  max-width: 760px;
   margin: 0 auto;
 }
 
@@ -99,13 +102,15 @@ a {
 
 .cmt-card {
   border: 3px solid #eee;
-  border-radius: 8px;
+  border-radius: 16px;
   background-color: #0f0e15;
 }
 
 .card-block {
   padding: 1.25rem;
   color: #eee;
+  background-color: #27272d;
+  border-radius: 0px 0px 16px 16px;
 }
 
 .card-footer {
@@ -116,7 +121,7 @@ a {
   border-bottom: 2px solid #eee;
 }
 
-.icon-trash{
+.icon-trash {
   font-size: 18px;
 }
 
@@ -155,7 +160,7 @@ a {
 }
 
 .btn-none {
-  background-color: #0f0e15;
+  background-color: #27272d;
   border: none;
 }
 
@@ -168,9 +173,8 @@ a {
   padding: 80px auto 31vw;
 }
 
-.bg-paginator{
+.bg-paginator {
   background-color: #0f0e15;
-
 }
 //PC-laptop
 @media (min-width: 1024px) {

@@ -43,7 +43,7 @@ export class ArticleComponent implements OnInit {
     this.isLoading = true;
     this.authService.currentUser.subscribe((user: GetUser | null) => {
       this.isLogin = !user ? false : true;
-    })
+    });
 
     const getData = this.route.params
       .pipe(
@@ -51,31 +51,35 @@ export class ArticleComponent implements OnInit {
           return this.getAPI.onGetArticleBySlug(params.slug);
         }),
         switchMap((data) => {
+          console.log(data);
+          this.isLoading = false;
+          this.isLoadingComment = true;
           this.article = data.article;
           return this.getAPI.onGetComment(data.article.slug);
         })
       )
       .subscribe(
         (data) => {
-          this.isLoading = false;
+          this.isLoadingComment = false;
           this.articleComment = data.comments;
         },
         (err) => {
           this.isLoading = false;
+          this.isLoadingComment = false;
           Swal.fire({
             icon: 'error',
             iconColor: '#d33',
             confirmButtonColor: '#0f0e15',
             title: 'Oops...',
             text: 'Something went wrong!',
-            timer: 1500
+            timer: 1500,
           });
         }
       );
 
     this.subscriptions.add(getData);
 
-    console.log(this.currentUser)
+    console.log(this.currentUser);
   }
 
   addComment(comment: NgForm) {
@@ -94,7 +98,7 @@ export class ArticleComponent implements OnInit {
             confirmButtonColor: '#0f0e15',
             title: 'Oops...',
             text: 'Something went wrong!',
-            timer: 1500
+            timer: 1500,
           });
         },
         () => {
@@ -110,6 +114,15 @@ export class ArticleComponent implements OnInit {
     this.getAPI.onDeleteComment(this.article.slug, id).subscribe(
       (data: any) => {
         this.articleComment.splice(index, 1);
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#0f0e15',
+          confirmButtonColor: '#0f0e15',
+          title: 'Delete!',
+          text: 'Your comment has been deleted sucessfully',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       },
       (err) => {
         console.log(err);
@@ -126,6 +139,14 @@ export class ArticleComponent implements OnInit {
         .subscribe(
           (data: any) => {
             this.article = data.article;
+            Swal.fire({
+              icon: 'success',
+              iconColor: '#0f0e15',
+              title: 'Succesfully',
+              text: 'You haved favorited this article!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
           },
           (err) => {
             console.log(err);
@@ -135,7 +156,7 @@ export class ArticleComponent implements OnInit {
               confirmButtonColor: '#0f0e15',
               title: 'Oops...',
               text: 'Something went wrong!',
-              timer: 1500
+              timer: 1500,
             });
           }
         );
@@ -150,6 +171,14 @@ export class ArticleComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.article = data.article;
+          Swal.fire({
+            icon: 'success',
+            iconColor: '#0f0e15',
+            title: 'Succesfully',
+            text: 'You haved unfavorited this article!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         (err) => {
           console.log(err);
@@ -159,7 +188,7 @@ export class ArticleComponent implements OnInit {
             confirmButtonColor: '#0f0e15',
             title: 'Oops...',
             text: 'Something went wrong!',
-            timer: 1500
+            timer: 1500,
           });
         }
       );
@@ -176,6 +205,14 @@ export class ArticleComponent implements OnInit {
         .subscribe(
           (follow: { profile: Profile }) => {
             this.article.author = follow.profile!;
+            Swal.fire({
+              icon: 'success',
+              iconColor: '#0f0e15',
+              title: 'Succesfully',
+              text: 'You haved followed this author!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
           },
           (err) => {
             console.log(err);
@@ -185,7 +222,7 @@ export class ArticleComponent implements OnInit {
               confirmButtonColor: '#0f0e15',
               title: 'Oops...',
               text: 'Something went wrong!',
-              timer: 1500
+              timer: 1500,
             });
           }
         );
@@ -200,6 +237,14 @@ export class ArticleComponent implements OnInit {
       .subscribe(
         (follow: { profile: Profile }) => {
           this.article.author = follow.profile!;
+          Swal.fire({
+            icon: 'success',
+            iconColor: '#0f0e15',
+            title: 'Succesfully',
+            text: 'You haved unfollowed this author!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         (err) => {
           console.log(err);
@@ -209,7 +254,7 @@ export class ArticleComponent implements OnInit {
             confirmButtonColor: '#0f0e15',
             title: 'Oops...',
             text: 'Something went wrong!',
-            timer: 1500
+            timer: 1500,
           });
         }
       );
@@ -233,27 +278,24 @@ export class ArticleComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        const getDeleteArticle = this.getAPI
-          .onDeleteArticle(this.article?.slug)
-          .subscribe(
-            (data: any) => {
-              this.router.navigate(['home']);
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
-        this.subscriptions.add(getDeleteArticle);
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#0f0e15',
+          confirmButtonColor: '#0f0e15',
+          title: 'Delete!',
+          text: 'Your article has been deleted sucessfully',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.getAPI.onDeleteArticle(this.article?.slug).subscribe(
+          (data: any) => {
+            this.router.navigate(['home']);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
       }
-      Swal.fire({
-        icon: 'success',
-        iconColor: '#0f0e15',
-        confirmButtonColor: '#0f0e15',
-        title: 'Delete!',
-        text: "Your file has been deleted sucessfully",
-        showConfirmButton: false,
-        timer: 1500
-      });
     });
   }
 }
