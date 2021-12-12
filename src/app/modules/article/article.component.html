@@ -1,1 +1,194 @@
-<button [routerLink]="['../editor']">Editor</button>
+<div class="bg-black1 mx-auto" style="width: 100%; height: auto">
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="isLoading" class="text-center spinner">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </div>
+  </div>
+
+  <div class="post aminate" *ngIf="!isLoading">
+    <div class="m-2">
+      <div
+        class="post-content mx-auto border-content"
+        style="width: 100%; height: auto"
+      >
+        <div class="float-start">
+          <div class="post-author d-flex">
+            <a href="#">
+              <img
+                class="post-author-img"
+                src="{{ article?.author?.image }}"
+                alt="img"
+              />
+            </a>
+            <div class="info-article">
+              <a
+                routerLink="/profile/{{ article?.author?.username }}"
+                class="post-author-link h3"
+                >{{ article?.author?.username }}
+              </a>
+              <div class="post-meta">
+                <time class="post-date">{{
+                  article?.createdAt | date: "longDate"
+                }}</time>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="clearfix"></div> -->
+        <div class="float-end">
+          <div class="post-bottom">
+            <span
+              class="post-tag"
+              *ngIf="currentUser?.user?.username !== article?.author?.username"
+            >
+              <a
+                ><span
+                  class="text-gray"
+                  *ngIf="!article?.author?.following"
+                  (click)="followArticle()"
+                  ><i class="fas fa-plus"></i> Follow
+                  {{ article?.author?.username }}</span
+                ><span
+                  class="text-gray"
+                  *ngIf="article?.author?.following"
+                  (click)="unfollowArticle()"
+                  ><i class="fas fa-plus"></i> Unfollow
+                  {{ article?.author?.username }}
+                </span></a
+              >
+              <a
+                ><span
+                  class="text-gray"
+                  *ngIf="!article?.favorited"
+                  (click)="favoriteArticle()"
+                  ><i class="far fa-heart"></i> Favorite Article
+                  {{ article?.favoritesCount }}</span
+                ><span
+                  class="text-gray"
+                  *ngIf="article?.favorited"
+                  (click)="unFavoriteArticle()"
+                  ><i class="fas fa-heart"></i> Unfavorite Article
+                  {{ article?.favoritesCount }}</span
+                ></a
+              >
+            </span>
+
+            <span
+              class="post-tag"
+              *ngIf="currentUser?.user?.username === article?.author?.username"
+            >
+              <a (click)="updateArticle()"
+                ><i class="fas fa-edit"></i> Edit Article</a
+              >
+              <a (click)="deleteArticles()" class="text-danger"
+                ><i class="fas fa-trash-alt"></i> Delete Article</a
+              >
+            </span>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="post aminate">
+          <div class="post-content mx-auto" style="width: 100%; height: auto">
+            <h1 class="post-title">{{ article?.title }}</h1>
+            <p>
+              {{ article?.body }}
+            </p>
+            <div class="post-tag d-flex" *ngFor="let tag of article?.tagList">
+              <a class="text-gray me-2">{{ tag }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4" style="padding-bottom: 25px">
+      <form
+        #comment="ngForm"
+        class="example-form mx-auto"
+        (ngSubmit)="addComment(comment)"
+      >
+        <div [hidden]="!isLogin">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label class="text-input-header">Write a comment</mat-label>
+            <textarea
+              class="text-input"
+              matInput
+              ngModel
+              name="comment"
+              style="color: #fff"
+              #input
+            ></textarea>
+            <div class="toolbar mt-2">
+              <button
+                (click)="input.value = ''"
+                type="submit"
+                class="float-end btn-none"
+              >
+                <i class="icon fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="isLoadingComment" class="text-center spinner">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+        <div *ngIf="!isLoadingComment">
+          <div class="cmt-card mt-3" *ngFor="let comment of articleComment">
+            <div class="card-footer">
+              <div class="float-start">
+                <a
+                  routerLink="/profile/{{ article?.author?.username }}"
+                  class="comment-author"
+                >
+                  <img
+                    src="{{ comment?.author?.image }}"
+                    alt="img-author"
+                    class="comment-author-img"
+                  />
+                </a>
+                <a
+                  routerLink="/profile/{{ comment?.author?.username }}"
+                  class="comment-author"
+                  style="color: rgba(255, 123, 123, 0.7); margin-left: 8px"
+                  >{{ comment?.author?.username }}</a
+                >
+                <span class="date-posted">{{
+                  comment.createdAt | date: "longDate"
+                }}</span>
+              </div>
+              <div
+                class="float-end"
+                *ngIf="
+                  currentUser?.user?.username === comment?.author?.username
+                "
+              >
+                <span
+                  (click)="deleteComment(comment?.id)"
+                  class="pull-right icon-trash"
+                  style="cursor: pointer"
+                  ><i class="fas fa-trash"></i
+                ></span>
+              </div>
+            </div>
+            <div class="card-block">
+              <p>
+                {{ comment.body }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+      <mat-paginator
+        class="mt-5 bg-paginator"
+        [length]="100"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>
