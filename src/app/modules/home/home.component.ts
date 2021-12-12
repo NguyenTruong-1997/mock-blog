@@ -1,22 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+// import { Router } from '@angular/router';
+
+// import { ArticleListConfig, TagsService, UserService } from '../core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-home-page',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  //#region Properties
+  constructor() {}
 
-  //#end region
-
-  //#region Constructor
-  public constructor() { }
-
-  //#end region
-
-  //#region Methods
-  public ngOnInit(): void { }
-
-  //#end region
+  ngOnInit() {}
 }

@@ -25,7 +25,7 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {

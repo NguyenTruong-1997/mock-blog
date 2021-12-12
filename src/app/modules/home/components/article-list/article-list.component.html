@@ -1,0 +1,61 @@
+
+<div *ngIf="loading" class="text-center spinner">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div
+  class="article-preview"
+  *ngFor="
+    let article of results;
+    let i = index
+  "
+>
+  <div class="article-meta">
+    <a [routerLink]="['/profile', article.author.username]">
+      <img [src]="article.author.image" style="width: 30px; height: 30px" />
+    </a>
+
+    <div class="info">
+      <a class="author" routerLink="/profile">
+        {{ article.author.username }}
+      </a>
+      <span class="date">
+        {{ article.createdAt | date: "longDate" }}
+      </span>
+    </div>
+
+    <button
+      appDebounceClick
+      [debounceTime]="300"
+      class="m-2 p-2"
+      style="cursor: pointer"
+      (debounceClick)="tonggleFavorite(article, i)"
+      [ngClass]="{ 'btn-primary': results[i].favorited }"
+    >
+      <i class="fas fa-heart mx-2" style="font-size: 20px; color: tomato"></i>
+      {{ results[i].favoritesCount }}
+    </button>
+
+    <a [routerLink]="['/article', article.slug]" class="preview-link">
+      <h1>{{ article.title }}</h1>
+      <p>{{ article.description }}</p>
+      <span>Read more...</span>
+      <ul class="tag-list">
+        <li
+          class="tag-default tag-pill tag-outline"
+          *ngFor="let tag of article.tagList"
+        >
+          {{ tag }}
+        </li>
+      </ul>
+    </a>
+  </div>
+
+  <div class="app-article-preview" [hidden]="results.length">
+    No articles are here... yet.
+  </div>
+
+</div>
+
+<mat-paginator #paginator [length]="length" [pageSizeOptions]="[5, 10, 100]" aria-label="Select page" (page)="handlePage($event)">
+</mat-paginator>

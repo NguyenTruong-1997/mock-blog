@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class HomeService {
-  //#region Properties
 
-  //#end region
+  public constructor(
+  ) {}
 
-  //#region Constructor
-  public constructor() { }
+  tag$ = new BehaviorSubject<{}>({type : 'all', filters: ''});
+  tag = this.tag$.asObservable();
 
-  //#end region
+  setTag(value: any) {
+    this.tag$.next(value);
+  }
 
-  //#region Methods
 
-  //#end region
 }
