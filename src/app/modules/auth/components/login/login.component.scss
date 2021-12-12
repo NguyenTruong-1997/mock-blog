@@ -1,6 +1,6 @@
 .login {
   background-color: #0f0e15;
-  height: 70vh;
+  min-height: 70vh;
   @media screen and (max-width: 768px) {
     height: auto;
   }
