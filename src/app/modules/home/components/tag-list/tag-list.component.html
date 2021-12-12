@@ -11,7 +11,5 @@
     </button>
   </div>
 
-  <div [hidden]="tagsLoaded">Loading tags...</div>
-
-  <div [hidden]="!tagsLoaded || tags.length > 0">No tags are here... yet.</div>
+  <div [hidden]="tags.length > 0">No tags are here... </div>
 </div>

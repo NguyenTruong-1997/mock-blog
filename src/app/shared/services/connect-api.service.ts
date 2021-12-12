@@ -55,21 +55,21 @@ export class ConnectApiService {
     );
   }
 
-  public onGetMultiArticlesByTag(offset: number, tag: string) {
+  public onGetMultiArticlesByTag(limit:number ,offset: number, tag: string) {
     return this.http.get<MultiArticle>(
-      this.API_URL + `/articles/?limit=10&offset=${offset}&tag=${tag}`
+      this.API_URL + `/articles/?limit=${limit}&&offset=${offset}&tag=${tag}`
     );
   }
 
-  public onGetGlobalFeedArticles(offset: number) {
+  public onGetGlobalFeedArticles(limit:number , offset: number) {
     return this.http.get<MultiArticle>(
-      this.API_URL + `/articles/?limit=10&offset=${offset}`
+      this.API_URL + `/articles/?limit=${limit}&offset=${offset}`
     );
   }
 
-  public onGetMyFeedArticles(offset: number) {
+  public onGetMyFeedArticles(limit:number ,offset: number) {
     return this.http.get<MultiArticle>(
-      this.API_URL + `/articles/feed?limit=10&offset=${offset}`
+      this.API_URL + `/articles/feed??limit=${limit}&offset=${offset}`
     );
   }
 

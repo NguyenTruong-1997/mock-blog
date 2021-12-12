@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Article } from 'src/app/shared/models/article.model';
 import { ConnectApiService } from 'src/app/shared/services/connect-api.service';
 import { HomeService } from '../../service/home.service';
 
@@ -27,10 +26,10 @@ export class TagListComponent implements OnInit {
       this.listConfig = res;
     });
 
-    this.connectApiService.onGetGlobalFeedArticles(0).subscribe((data) => {
-      data.articles.forEach((el:any) => this.tags.push(el.tagList));
-      this.tags = new Set(this.tags.flat());
-    });
+    this.connectApiService.onGetTags().subscribe(res => {
+      this.tags = res.tags;
+      
+    })
   }
 
   setListTo(type: string = '', filters: any) {

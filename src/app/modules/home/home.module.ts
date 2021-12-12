@@ -8,6 +8,8 @@ import { ArticleListComponent } from './components/article-list/article-list.com
 import { TagListComponent } from './components/tag-list/tag-list.component';
 import { ArticleFeedComponent } from './components/article-feed/article-feed.component';
 import { DebounceClickDirective } from '../../shared/directives/debounce.directive';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { LoadingSpinnerModule } from 'src/app/shared/components/loading-spinner/loading-spinner.module';
 
 @NgModule({
   declarations: [
@@ -15,12 +17,14 @@ import { DebounceClickDirective } from '../../shared/directives/debounce.directi
     ArticleListComponent,
     TagListComponent,
     ArticleFeedComponent,
-    DebounceClickDirective
+    DebounceClickDirective,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
+    LoadingSpinnerModule,
     RouterModule.forChild([{ path: '', component: HomeComponent }]),
   ],
   providers: [HomeService],
