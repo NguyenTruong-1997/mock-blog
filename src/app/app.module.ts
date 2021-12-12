@@ -22,7 +22,7 @@ import { AuthInterceptor } from './helpers/auth.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {
